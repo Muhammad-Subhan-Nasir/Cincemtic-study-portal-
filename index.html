@@ -1,67 +1,1137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#090b19" />
-    <title>Universe of Resources — Academic Resources</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="fix.css" />
-  </head>
-  <body>
-    <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-    <div class="grain"></div>
-    <main id="studentView">
-      <nav class="nav shell">
-        <a href="#top" class="brand"><svg class="brand-icon-svg" viewBox="0 0 50 32" width="42" height="26" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" /><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" /><circle cx="25" cy="16" r="4" fill="#8bf542" /><circle cx="43" cy="9" r="2.5" fill="#8bf542" /><circle cx="7" cy="23" r="2.2" fill="#8bf542" /></svg><span>UNIVERSE<span class="brand-light">OF RESOURCES</span></span></a>
-        <div class="nav-center"><a href="#resources">Resources</a><a href="#how-it-works">How it works</a></div>
-        <button class="admin-trigger" id="showLogin"><span class="lock-icon">⌘</span> Admin</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070913" />
+  <meta name="description" content="Universe of Resources — Academic study portal, 1-on-1 practical Vibe Coding & full-stack web mentorship with M. Subhan & student perks." />
+  <title>Universe of Resources — Academic & Tech Hub</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  
+  <!-- Optimized Unified Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Fullscreen Subtle Background Starfield Canvas -->
+  <canvas id="cosmicStarfieldCanvas" class="fullscreen-stars-canvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient background glow (GPU accelerated) -->
+  <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
+  <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <!-- Floating Direct WhatsApp Quick Action Button -->
+  <a href="https://wa.me/923706449349?text=Hi%20M.%20Subhan,%20I%20visited%20Universe%20of%20Resources%20and%20want%20to%20connect%20with%20you." class="floating-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat with M. Subhan on WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.27-1.13l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.4c0-2.2.85-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.84-2.41zm-2.4 3.7c-.24 0-.53.09-.81.39-.28.3-1.07 1.05-1.07 2.56s1.1 2.97 1.25 3.17c.15.2 2.12 3.39 5.24 4.63.78.31 1.38.5 1.86.64.78.23 1.49.2 2.05.12.63-.09 1.93-.79 2.2-1.55.27-.77.27-1.42.19-1.56-.08-.14-.3-.23-.63-.39-.33-.17-1.93-.95-2.23-1.06-.3-.11-.52-.17-.74.17-.22.33-.85 1.06-1.04 1.28-.19.22-.39.25-.72.08-.33-.17-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.15-.67.15-.15.33-.39.5-.58.17-.2.22-.33.33-.56.11-.22.06-.42-.03-.58-.08-.17-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01z"/>
+    </svg>
+    <span class="floating-tooltip">Chat with M. Subhan</span>
+  </a>
+
+  <!-- Student Facing View -->
+  <main id="studentView" class="view-active">
+    <!-- Navigation Bar -->
+    <header class="navbar shell">
+      <a href="#top" class="brand" aria-label="Universe of Resources Home">
+        <svg class="brand-icon" viewBox="0 0 50 32" width="38" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" />
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" />
+          <circle cx="25" cy="16" r="4" fill="#8bf542" />
+          <circle cx="43" cy="9" r="2.5" fill="#8bf542" />
+          <circle cx="7" cy="23" r="2.2" fill="#8bf542" />
+        </svg>
+        <span class="brand-text">UNIVERSE<span class="brand-sub">OF RESOURCES</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#resources">Resources</a>
+        <a href="#about-portal">About</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#mentorship">Vibe Coding</a>
+        <a href="#student-perks">Student Deals</a>
       </nav>
-      <section class="announcement-banner shell" id="announcementBanner" hidden><div class="announcement-pulse">✦</div><div><span>ANNOUNCEMENT</span><strong id="announcementTitle"></strong><p id="announcementMessage"></p></div></section>
 
-      <section class="hero shell" id="top">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> UNIVERSE OF RESOURCES / 2026</p>
-          <h1>Every resource.<br /><em>One universe.</em></h1>
-          <p class="hero-text">All your academic data, Google Drive folders, notes, assignments and study material — gathered in one beautiful place.</p>
-          <a class="primary-button" href="#resources">Explore your resources <span>↘</span></a>
-          <div class="hero-stats"><div><strong id="resourceCount">00</strong><span>Resource folders</span></div><div><strong>02</strong><span>Programs live</span></div><div><strong>24/7</strong><span>Open access</span></div></div>
+      <div class="nav-actions">
+        <button class="btn-admin-trigger" id="showLogin" aria-label="Open Admin Login">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Admin</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Real-time Live Announcement Banner -->
+    <aside class="announcement-banner shell" id="announcementBanner" hidden>
+      <div class="announcement-badge">
+        <span class="pulse-dot"></span>
+        <span class="badge-label">NOTICE</span>
+      </div>
+      <div class="announcement-content">
+        <strong id="announcementTitle"></strong>
+        <p id="announcementMessage"></p>
+      </div>
+      <button class="announcement-close" id="dismissAnnouncement" aria-label="Dismiss Announcement">&times;</button>
+    </aside>
+
+    <!-- Hero Section (2-Column Balanced Layout) -->
+    <section class="hero shell" id="top">
+      <!-- Left Column: Copy & Live Search -->
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="tag-pulse"></span>
+          <span>ACADEMIC VAULT & VIBE CODING MENTORSHIP // 2026</span>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="orbital orbital-a"></div><div class="orbital orbital-b"></div>
-          <div class="galaxy-scene" id="galaxyScene" aria-label="Animated galaxy"><div class="galaxy"><div class="galaxy-halo halo-a"></div><div class="galaxy-halo halo-b"></div><div class="galaxy-halo halo-c"></div><div class="galaxy-core"></div><div class="star star-a"></div><div class="star star-b"></div><div class="star star-c"></div><div class="star star-d"></div><div class="star star-e"></div></div><div class="planet planet-a"><i></i></div><div class="planet planet-b"><i></i></div><div class="comet comet-a"></div><div class="comet comet-b"></div><div class="comet comet-c"></div></div><div class="wire-globe" aria-hidden="true"><i class="globe-ring globe-ring-a"></i><i class="globe-ring globe-ring-b"></i><i class="globe-ring globe-ring-c"></i><i class="globe-ring globe-ring-d"></i><b class="globe-dot dot-a"></b><b class="globe-dot dot-b"></b><b class="globe-dot dot-c"></b></div>
-          <div class="art-caption cap-one">// KNOWLEDGE<br />&nbsp;&nbsp;IN MOTION</div><div class="art-caption cap-two">01—02<br /><b>PROGRAMS</b></div>
+        
+        <h1 class="hero-title">
+          Every resource.<br />
+          <em>One universe.</em>
+        </h1>
+        
+        <p class="hero-subtitle">
+          Direct Google Drive folders for university slides, handwritten notes, and past papers — plus practical 1-on-1 Vibe Coding mentorship with M. Subhan and discounted developer tools.
+        </p>
+
+        <!-- Live Search Bar -->
+        <div class="hero-search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search subjects, notes, or folders..." autocomplete="off" />
+          <button class="clear-search-btn" id="clearSearch" hidden aria-label="Clear Search">&times;</button>
         </div>
-      </section>
 
-      <section class="resources shell" id="resources">
-        <div class="section-intro"><div><p class="eyebrow"><span></span> FIND YOUR FOLDER</p><h2>Select your <em>program.</em></h2></div><p>Choose your degree and semester to access the material shared by your academic community.</p></div>
-        <div class="program-tabs" role="tablist"><button class="program-tab active" data-program="BS Computer Science"><span class="tab-number">01</span> BS Computer Science <small>CS</small></button><button class="program-tab" data-program="BS English"><span class="tab-number">02</span> BS English <small>ENG</small></button></div>
-        <div class="semester-row" id="semesterFilters"></div>
-        <div class="resources-head"><span id="resourceLabel">COMPUTER SCIENCE / ALL SEMESTERS</span><span id="shownCount">0 FOLDERS</span></div>
-        <div class="resource-grid" id="resourceGrid"></div>
-        <div class="empty-state" id="emptyState" hidden><div>◇</div><h3>Nothing here yet</h3><p>Your admin will add resources for this semester soon.</p></div>
-      </section>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#resources">
+            <span>Explore Folders</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="7" y1="7" x2="17" y2="17"></line>
+              <polyline points="17 7 17 17 7 17"></polyline>
+            </svg>
+          </a>
+          <a class="btn-secondary" href="#mentorship">
+            <span>Learn Vibe Coding with Subhan</span>
+          </a>
+        </div>
 
-      <section class="process shell" id="how-it-works"><div class="process-visual"><span class="line line-1"></span><span class="line line-2"></span><div class="process-orb">✦</div></div><div class="process-content"><p class="eyebrow"><span></span> BUILT FOR STUDENTS</p><h2>Less hunting.<br /><em>More learning.</em></h2><div class="process-steps"><div><b>01</b><p><strong>Choose your program</strong><span>Start with your degree.</span></p></div><div><b>02</b><p><strong>Filter your semester</strong><span>Find exactly what you need.</span></p></div><div><b>03</b><p><strong>Open the folder</strong><span>Access it directly in Google Drive.</span></p></div></div></div></section>
-      <section class="knowledge-finale shell"><div class="final-copy"><p class="eyebrow"><span></span> YOUR DIGITAL LIBRARY</p><h2>Everything you need.<br /><em>Ready to explore.</em></h2><p>Notes, folders and study material — always within reach.</p></div><div class="library-scene" aria-hidden="true"><div class="library-aura"></div><div class="book-wrap book-wrap-a"><div class="book book-a"><i></i><b>RESOURCES</b></div></div><div class="book-wrap book-wrap-b"><div class="book book-b"><i></i><b>STUDY NOTES</b></div></div><div class="book-wrap book-wrap-c"><div class="book book-c"><i></i><b>DRIVE FILES</b></div></div><div class="loose-page page-a"></div><div class="loose-page page-b"></div><div class="loose-page page-c"></div><div class="library-spark spark-a"></div><div class="library-spark spark-b"></div><div class="library-spark spark-c"></div></div></section>
-      <footer class="shell"><a href="#top" class="brand"><svg class="brand-icon-svg" viewBox="0 0 50 32" width="42" height="26" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" /><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" /><circle cx="25" cy="16" r="4" fill="#8bf542" /><circle cx="43" cy="9" r="2.5" fill="#8bf542" /><circle cx="7" cy="23" r="2.2" fill="#8bf542" /></svg><span>UNIVERSE<span class="brand-light">OF RESOURCES</span></span></a><p class="subhan-footer-credit">✦ DEVELOPED BY <span class="subhan-glow-text">SUBHAN</span> · MANAGED BY ADMIN ✦</p><button id="showLoginFooter">ADMIN PORTAL ↗</button></footer>
-    </main>
+        <!-- Live Stats Counters -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <strong id="resourceCount" class="counter-number">00</strong>
+            <span>Drive Folders</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <strong id="programCount" class="counter-number">02</strong>
+            <span>Active Programs</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <strong class="counter-number">24/7</strong>
+            <span>Free Access</span>
+          </div>
+        </div>
+      </div>
 
-    <section id="adminView" hidden>
-      <aside class="admin-sidebar"><a href="#" class="brand"><svg class="brand-icon-svg" viewBox="0 0 50 32" width="42" height="26" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" /><ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" /><circle cx="25" cy="16" r="4" fill="#8bf542" /><circle cx="43" cy="9" r="2.5" fill="#8bf542" /><circle cx="7" cy="23" r="2.2" fill="#8bf542" /></svg><span>UNIVERSE<span class="brand-light">OF RESOURCES</span></span></a><p class="admin-tag">ADMIN CONSOLE</p><div class="admin-user"><span>AD</span><div><strong>Administrator</strong><small>Resource manager</small></div></div><button id="backToPortal">← View student portal</button><button id="logout" class="logout">Sign out</button></aside>
-      <div class="admin-main"><header><div><p class="eyebrow"><span></span> CONTENT MANAGEMENT</p><h1>Resource <em>vault.</em></h1></div><div class="admin-header-actions"><button class="student-view-button" id="backToPortalMain">Student website</button><button class="student-view-button" id="openAnnouncement">Announcement</button><button class="add-button" id="openAdd">+ Add resource</button></div></header><div class="dashboard-stats"><article><span>Total folders</span><strong id="adminTotal">00</strong><small>Across both programs</small></article><article><span>Computer Science</span><strong id="csTotal">00</strong><small>Published resources</small></article><article><span>English</span><strong id="engTotal">00</strong><small>Published resources</small></article></div><section class="announcement-status"><div><span>LIVE ANNOUNCEMENT</span><strong id="adminAnnouncementTitle">No announcement published</strong><p id="adminAnnouncementMessage">Create an announcement for all students.</p></div><button id="clearAnnouncement" hidden>Remove announcement</button></section><section class="admin-list"><div class="list-toolbar"><h2>Published resources</h2><select id="adminProgramFilter"><option value="all">All programs</option><option>BS Computer Science</option><option>BS English</option></select></div><div class="admin-table-wrap"><table><thead><tr><th>RESOURCE</th><th>PROGRAM</th><th>SEMESTER</th><th>DRIVE LINK</th><th></th></tr></thead><tbody id="adminResourceList"></tbody></table></div></section></div>
+      <!-- Right Column: Option 1 — Orbiting Circles with Cosmic Academic Globe (60 FPS Solid) -->
+      <div class="hero-visual" id="heroVisualWrap">
+        <div class="cosmic-orbit-system" aria-label="Universe of Resources Cosmic Orbiting System">
+          <!-- Background Ambient Nebula Glow -->
+          <div class="orbit-nebula-glow" aria-hidden="true"></div>
+
+          <!-- Central Pulsating Cosmic Globe Core -->
+          <a href="#resources" class="orbit-center-globe" aria-label="Explore Universe of Resources">
+            <div class="globe-pulse-ring"></div>
+            <div class="globe-inner-sphere">
+              <svg class="globe-brand-icon" viewBox="0 0 50 32" width="34" height="22" fill="none">
+                <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="2" transform="rotate(-20 25 16)" />
+                <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="2" transform="rotate(25 25 16)" />
+                <circle cx="25" cy="16" r="3.8" fill="#8bf542" />
+                <circle cx="43" cy="9" r="2.2" fill="#8bf542" />
+                <circle cx="7" cy="23" r="2" fill="#8bf542" />
+              </svg>
+              <strong>UNIVERSE</strong>
+              <small>OF RESOURCES</small>
+            </div>
+          </a>
+
+          <!-- Inner Orbit Ring (Radius: 85px - Google Drive & Full-Stack Web App) -->
+          <div class="orbit-ring orbit-ring-inner" aria-hidden="true">
+            <div class="orbit-node node-drive" style="--initial-angle: 0deg;" title="Google Drive Vault">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8bf542" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+            </div>
+            <div class="orbit-node node-webapp" style="--initial-angle: 180deg;" title="Full-Stack Web Application">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+                <polyline points="7 9 9 11 7 13"></polyline>
+                <line x1="12" y1="13" x2="15" y2="13"></line>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Middle Orbit Ring (Radius: 145px - Supabase, Firebase, Web App Dev) -->
+          <div class="orbit-ring orbit-ring-mid" aria-hidden="true">
+            <!-- Supabase Database (User Uploaded Official Logo) -->
+            <div class="orbit-node node-brand-circle node-supabase" style="--initial-angle: 30deg;" title="Supabase Database">
+              <img src="assets/logos/supabase.png" alt="Supabase" class="orbit-logo-img" />
+            </div>
+            <!-- Firebase Backend -->
+            <div class="orbit-node node-firebase" style="--initial-angle: 150deg;" title="Firebase Backend">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 19.5L9.5 2.5L13 9L4.5 19.5Z" fill="#FFA000"/>
+                <path d="M19.5 19.5L14.5 9L13 9L4.5 19.5H19.5Z" fill="#F57C00"/>
+                <path d="M14.5 9L11.5 3.5L4.5 19.5L14.5 9Z" fill="#FFCA28"/>
+              </svg>
+            </div>
+            <!-- Web App Development -->
+            <div class="orbit-node node-dev" style="--initial-angle: 270deg;" title="Web App Development">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Outer Orbit Ring (Radius: 205px - BS CS, BS English, Netflix, Google Gemini) -->
+          <div class="orbit-ring orbit-ring-outer" aria-hidden="true">
+            <!-- BS CS Badge -->
+            <div class="orbit-node node-badge node-cs" style="--initial-angle: 20deg;" title="BS Computer Science">
+              <span>BS CS</span>
+            </div>
+            <!-- Netflix -->
+            <div class="orbit-node node-brand-circle node-netflix" style="--initial-angle: 110deg;" title="Netflix 4K Streaming">
+              <img src="assets/logos/netflix.png" alt="Netflix" class="orbit-logo-img" />
+            </div>
+            <!-- BS English Badge -->
+            <div class="orbit-node node-badge node-eng" style="--initial-angle: 200deg;" title="BS English Literature">
+              <span>BS ENGLISH</span>
+            </div>
+            <!-- Google Gemini (User Uploaded Official Spark Logo) -->
+            <div class="orbit-node node-brand-circle node-gemini" style="--initial-angle: 290deg;" title="Google Gemini AI">
+              <img src="assets/logos/gemini_spark.png" alt="Google Gemini" class="orbit-logo-img" />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <div class="modal-backdrop" id="loginModal" hidden><div class="modal login-card"><button class="close-modal" data-close>×</button><div class="modal-glyph">✦</div><p class="eyebrow"><span></span> RESTRICTED ACCESS</p><h2>Admin <em>portal.</em></h2><p>Sign in to add and manage resource folders.</p><form id="loginForm"><label>ADMIN PASSWORD<input id="passwordInput" type="password" placeholder="Enter password" autocomplete="current-password" required /></label><p class="form-error" id="loginError"></p><button class="primary-button" type="submit">Enter dashboard <span>↗</span></button></form></div></div>
-    <div class="modal-backdrop" id="addModal" hidden><div class="modal add-card"><button class="close-modal" data-close>×</button><p class="eyebrow"><span></span> NEW RESOURCE</p><h2>Add a <em>folder.</em></h2><form id="resourceForm"><label>RESOURCE TITLE<input name="title" maxlength="70" placeholder="e.g. OOP Lecture Notes" required /></label><div class="form-columns"><label>PROGRAM<select name="program"><option>BS Computer Science</option><option>BS English</option></select></label><label>SEMESTER<select name="semester" id="semesterSelect"></select></label></div><label>GOOGLE DRIVE LINK<input name="url" type="url" placeholder="https://drive.google.com/..." required /></label><label>SHORT DESCRIPTION <textarea name="description" maxlength="150" placeholder="What will students find in this folder?"></textarea></label><button class="primary-button" type="submit">Publish resource <span>↗</span></button></form></div></div>
-    <div class="modal-backdrop" id="announcementModal" hidden><div class="modal add-card"><button class="close-modal" data-close>×</button><p class="eyebrow"><span></span> STUDENT UPDATE</p><h2>Publish an <em>announcement.</em></h2><form id="announcementForm"><label>ANNOUNCEMENT TITLE<input name="title" maxlength="80" placeholder="e.g. Midterm schedule is live" required /></label><label>MESSAGE<textarea name="message" maxlength="240" placeholder="Write the important update students need to see." required></textarea></label><button class="primary-button" type="submit">Publish announcement <span>↗</span></button></form></div></div>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="app.js"></script>
-  </body>
+    <!-- Main Resources Section -->
+    <section class="resources-section shell" id="resources">
+      <div class="section-header">
+        <div>
+          <span class="section-eyebrow">CURATED FOLDERS</span>
+          <h2 class="section-title">Select your <em>program.</em></h2>
+        </div>
+        <p class="section-desc">
+          Choose your degree and semester below to access Google Drive study material shared by your class community.
+        </p>
+      </div>
+
+      <!-- Program Switcher Tabs -->
+      <div class="program-tabs-wrap" role="tablist">
+        <button class="program-tab active" data-program="BS Computer Science" role="tab" aria-selected="true">
+          <span class="tab-code">01</span>
+          <span class="tab-name">BS Computer Science</span>
+          <small class="tab-badge">CS</small>
+        </button>
+        <button class="program-tab" data-program="BS English" role="tab" aria-selected="false">
+          <span class="tab-code">02</span>
+          <span class="tab-name">BS English</span>
+          <small class="tab-badge">ENG</small>
+        </button>
+      </div>
+
+      <!-- Semester Horizontal Filter Scroller -->
+      <div class="semester-scroll-wrap">
+        <div class="semester-bar" id="semesterFilters" role="radiogroup">
+          <!-- Dynamically generated via JS -->
+        </div>
+      </div>
+
+      <!-- Active Filter Status & Count -->
+      <div class="filter-status-bar">
+        <div class="status-left">
+          <span class="status-indicator"></span>
+          <span id="resourceLabel">COMPUTER SCIENCE / ALL SEMESTERS</span>
+        </div>
+        <span class="status-count" id="shownCount">0 FOLDERS</span>
+      </div>
+
+      <!-- Resources Grid -->
+      <div class="resource-grid" id="resourceGrid">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" hidden>
+        <svg class="empty-icon-svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          <line x1="9" y1="14" x2="15" y2="14"></line>
+        </svg>
+        <h3>Nothing here yet</h3>
+        <p>No study folders match your current filter or search criteria.</p>
+        <button class="btn-reset-filter" id="resetFilters">Reset Filters</button>
+      </div>
+    </section>
+
+    <!-- Subhan's Vision Section (Natural, Student-Focused Text) -->
+    <section class="architecture-section shell" id="about-portal">
+      <div class="section-intro-center">
+        <span class="section-eyebrow">FOUNDER'S VISION · BY SUBHAN</span>
+        <h2 class="section-title">Built by a student, <em>for students.</em></h2>
+        <p>Subhan created Universe of Resources to solve a real everyday university problem: having notes, past papers, and teacher slides scattered across WhatsApp groups and lost links.</p>
+      </div>
+
+      <div class="arch-grid">
+        <article class="arch-card">
+          <div class="arch-card-glow"></div>
+          <div class="arch-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8bf542" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <span class="arch-card-num">01</span>
+          <h3>All Semester Material in One Place</h3>
+          <p>No more asking classmates for slides before class. Everything is organized semester-by-semester in direct Google Drive folders.</p>
+        </article>
+
+        <article class="arch-card">
+          <div class="arch-card-glow"></div>
+          <div class="arch-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </div>
+          <span class="arch-card-num">02</span>
+          <h3>Handwritten Notes & Solved Papers</h3>
+          <p>Direct access to teachers' presentations, handwritten notes, and past examination papers for fast midterm and final preparation.</p>
+        </article>
+
+        <article class="arch-card">
+          <div class="arch-card-glow"></div>
+          <div class="arch-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <span class="arch-card-num">03</span>
+          <h3>Always Active & Maintained</h3>
+          <p>Links and files are continuously verified and updated by Subhan, ensuring you never encounter broken links right before your exams.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section shell" id="how-it-works">
+      <div class="hiw-card">
+        <span class="section-eyebrow">BUILT FOR STUDENTS</span>
+        <h2>Less hunting. <em>More learning.</em></h2>
+        <div class="hiw-steps">
+          <div class="step-card">
+            <span class="step-number">01</span>
+            <h3>Choose your program</h3>
+            <p>Start with your degree and current academic semester.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">02</span>
+            <h3>Filter your semester</h3>
+            <p>Find exactly what you need with instant live search.</p>
+          </div>
+          <div class="step-card">
+            <span class="step-number">03</span>
+            <h3>Open the folder</h3>
+            <p>Access your slides, past papers, and notes directly in Google Drive.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRACTICAL VIBE CODING & FULL-STACK MENTORSHIP WITH M. SUBHAN -->
+    <section class="skills-mentorship-section shell" id="mentorship">
+      <div class="mentorship-banner">
+        <div class="mentorship-header">
+          <div class="mentor-badge">
+            <span class="pulse-dot"></span>
+            <span>PRACTICAL VIBE CODING & MULTI-STACK MENTORSHIP · 1-ON-1 WITH M. SUBHAN</span>
+          </div>
+          <h2 class="mentorship-title">Learn to Build Full-Stack Web Applications & More with <em>Vibe Coding.</em></h2>
+          <p class="mentorship-desc">
+            We teach you how to build real production web applications, mobile apps, online stores, chatbots, and graphics using modern <strong>Vibe Coding</strong> across multiple programming languages and frameworks. Express your vision and let cutting-edge workflows handle the boilerplate so you learn <strong>10x faster in less time</strong>, master full-stack architecture, and build a standout portfolio with genuine industry experience.
+          </p>
+        </div>
+
+        <!-- 5 Core Practical Skills Tracks in 1 Single Line Grid -->
+        <div class="skills-catalog-grid skills-catalog-grid-5">
+          <!-- Skill 1: Full-Stack Web Development -->
+          <div class="skill-offering-card card-highlight-green">
+            <div class="skill-top-bar">
+              <div class="skill-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8bf542" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </div>
+              <span class="track-badge">FULL-STACK</span>
+            </div>
+            <h3>Full-Stack Web Apps</h3>
+            <p>Build complete web apps with Vibe Coding, clean React frontend, Node.js backend APIs, user authentication, and databases.</p>
+            <ul class="skill-bullets">
+              <li>✦ React, Tailwind & Vibe UI</li>
+              <li>✦ Node.js & Express REST APIs</li>
+              <li>✦ User Login, Auth & JWT</li>
+              <li>✦ MongoDB & Firebase Sync</li>
+            </ul>
+            <span class="skill-tag">React • Node.js • Database</span>
+          </div>
+
+          <!-- Skill 2: Android App Development -->
+          <div class="skill-offering-card card-highlight-cyan">
+            <div class="skill-top-bar">
+              <div class="skill-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                  <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+              </div>
+              <span class="track-badge badge-cyan">MOBILE APP</span>
+            </div>
+            <h3>Android Mobile Apps</h3>
+            <p>Build responsive mobile applications for Android phones with clean navigation, offline caching, and Play Store APK builds.</p>
+            <ul class="skill-bullets">
+              <li>✦ Flutter & Kotlin Development</li>
+              <li>✦ Mobile Screen UI & Animations</li>
+              <li>✦ Storage & Firebase Live Sync</li>
+              <li>✦ APK Export & Play Store Setup</li>
+            </ul>
+            <span class="skill-tag tag-cyan">Flutter • Kotlin • APK</span>
+          </div>
+
+          <!-- Skill 3: 3D Websites & Interactive Design -->
+          <div class="skill-offering-card card-highlight-purple">
+            <div class="skill-top-bar">
+              <div class="skill-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              </div>
+              <span class="track-badge badge-purple">3D WEB</span>
+            </div>
+            <h3>3D Websites & Visuals</h3>
+            <p>Make your web pages stand out with smooth 3D visuals, floating canvas particles, and 60 FPS smooth mobile scrolling.</p>
+            <ul class="skill-bullets">
+              <li>✦ Three.js & 3D Canvas</li>
+              <li>✦ Parallax Motion Effects</li>
+              <li>✦ Modern Glassmorphism</li>
+              <li>✦ Super-Fast Mobile Loading</li>
+            </ul>
+            <span class="skill-tag tag-purple">Three.js • 3D Canvas</span>
+          </div>
+
+          <!-- Skill 4: E-Commerce & AI Chatbots -->
+          <div class="skill-offering-card card-highlight-green">
+            <div class="skill-top-bar">
+              <div class="skill-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8bf542" stroke-width="2">
+                  <circle cx="9" cy="21" r="1"></circle>
+                  <circle cx="20" cy="21" r="1"></circle>
+                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+              </div>
+              <span class="track-badge">E-COMMERCE & AI</span>
+            </div>
+            <h3>E-Commerce & Chatbots</h3>
+            <p>Build online stores with product catalogs, shopping carts, and automated WhatsApp/website customer support AI bots.</p>
+            <ul class="skill-bullets">
+              <li>✦ Custom E-Commerce & Shopify</li>
+              <li>✦ Payment Gateways & Checkout</li>
+              <li>✦ AI Chatbot Assistants</li>
+              <li>✦ Automated Customer Support</li>
+            </ul>
+            <span class="skill-tag">Shopify • AI Bots • Stores</span>
+          </div>
+
+          <!-- Skill 5: Graphic Designing & Brand UI -->
+          <div class="skill-offering-card card-highlight-gold">
+            <div class="skill-top-bar">
+              <div class="skill-icon-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2">
+                  <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                  <path d="M2 2l7.586 7.586"></path>
+                  <circle cx="11" cy="11" r="2"></circle>
+                </svg>
+              </div>
+              <span class="track-badge badge-gold">DESIGN & UI</span>
+            </div>
+            <h3>Graphic Design & Brand UI</h3>
+            <p>Design modern logos, social media posters, brand identities, and high-conversion UI layouts with Canva Pro & Figma.</p>
+            <ul class="skill-bullets">
+              <li>✦ Figma UI & Vector Design</li>
+              <li>✦ Canva Pro & 4K Graphics</li>
+              <li>✦ Modern Logo & Brand Kits</li>
+              <li>✦ Social Banners & Ad Creatives</li>
+            </ul>
+            <span class="skill-tag tag-gold">Figma • Canva Pro • UI Design</span>
+          </div>
+        </div>
+
+        <!-- 7-STEP CONNECTED ARROW PIPELINE (FROM SCRATCH TO LIVE WITH VIBE CODING) -->
+        <div class="roadmap-container">
+          <div class="roadmap-header">
+            <span class="section-eyebrow">FAST-TRACK VIBE CODING PIPELINE</span>
+            <h3 class="roadmap-title">The 7 Steps: <em>From Idea to Production with Vibe Coding</em></h3>
+            <p class="roadmap-subtitle">How we build and launch real-world applications step-by-step in significantly less time using modern vibe coding workflows.</p>
+          </div>
+
+          <!-- Connected Horizontal Arrow Flow Ribbon with SVG Icons & Real Tech Knowledge -->
+          <div class="arrow-pipeline-flow">
+            <!-- Step 1 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">01</span>
+                  <div class="arrow-step-icon icon-emerald">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                      <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                      <path d="M2 2l7.586 7.586"></path>
+                    </svg>
+                  </div>
+                </div>
+                <h4>User Interface Design (UI/UX)</h4>
+                <p>Prompting & wireframing in Figma, designing responsive grid layouts, color systems, and mobile user flows before coding.</p>
+                <div class="arrow-step-tags">
+                  <span>Figma UI</span>
+                  <span>Vibe Wireframing</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">02</span>
+                  <div class="arrow-step-icon icon-cyan">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="16 18 22 12 16 6"></polyline>
+                      <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Front-End Development</h4>
+                <p>Writing fast, responsive React, Tailwind CSS, and HTML5 components using Vibe Coding for rapid UI engineering.</p>
+                <div class="arrow-step-tags">
+                  <span>React</span>
+                  <span>Tailwind CSS</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">03</span>
+                  <div class="arrow-step-icon icon-purple">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                      <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                      <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Back-End Architecture</h4>
+                <p>Building secure server logic, route controllers, request validation, middleware, and Node.js & Express REST APIs.</p>
+                <div class="arrow-step-tags">
+                  <span>Node.js</span>
+                  <span>Express APIs</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">04</span>
+                  <div class="arrow-step-icon icon-emerald">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                      <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Database & Real-Time Sync</h4>
+                <p>Creating scalable schemas in MongoDB, Firestore, or PostgreSQL with live real-time synchronization and fast indexing.</p>
+                <div class="arrow-step-tags">
+                  <span>MongoDB</span>
+                  <span>Firestore</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">05</span>
+                  <div class="arrow-step-icon icon-purple">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Plugins & Authentication</h4>
+                <p>Securing user accounts with JWT encryption, OAuth Google logins, Stripe payments, and third-party APIs.</p>
+                <div class="arrow-step-tags">
+                  <span>JWT Auth</span>
+                  <span>OAuth & APIs</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="arrow-step-node">
+              <div class="arrow-step-card">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill">06</span>
+                  <div class="arrow-step-icon icon-cyan">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                      <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Responsive Device Testing</h4>
+                <p>Testing touch UX, loading speed, and responsive layouts across real Android phones, iPhones, tablets, and PC screens with fast debugging.</p>
+                <div class="arrow-step-tags">
+                  <span>Cross-Device</span>
+                  <span>Vibe Debugging</span>
+                </div>
+              </div>
+            </div>
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="arrow-step-node arrow-step-final">
+              <div class="arrow-step-card card-glow-launch">
+                <div class="arrow-step-top">
+                  <span class="step-num-pill pill-launch">07 · FREE</span>
+                  <div class="arrow-step-icon icon-emerald">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <h4>Free Cloud Deployment & Hosting</h4>
+                <p>Publishing your live project for free on GitHub Pages, Vercel, or Firebase with custom domains, CI/CD auto-builds, and free SSL.</p>
+                <div class="arrow-step-tags">
+                  <span>Vercel</span>
+                  <span>GitHub</span>
+                  <span>Free SSL</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- M. SUBHAN'S PERSONAL MESSAGE TO JUNIORS -->
+          <div class="subhan-mentor-note">
+            <div class="mentor-note-quote-icon">❝</div>
+            <div class="mentor-note-body">
+              <span class="mentor-note-tag">A PERSONAL MESSAGE TO MY JUNIORS & FELLOW STUDENTS</span>
+              <h3>I've been in your shoes — learn fast, build real projects, and grow together.</h3>
+              <p>
+                "I know firsthand that university students rarely get proper practical mentorship. Traditional lectures move too slowly with outdated slides, leaving you confused about how real-world software is actually developed. <strong>I have walked through every single one of these struggles myself.</strong>
+              </p>
+              <p>
+                That is why we teach you how to build complete web applications using <strong>modern Vibe Coding</strong> across diverse languages and frameworks. You will learn 10x faster in less time, understand full-stack architecture deeply, and gain actual industry experience you can showcase. Everything I have learned is yours to master — step-by-step, with complete patience and direct 1-on-1 support."
+              </p>
+              <div class="mentor-note-signature">
+                <span class="mentor-sig-avatar">MS</span>
+                <div>
+                  <strong>M. Subhan</strong>
+                  <small>Founder & Lead Mentor · Universe of Resources</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WhatsApp Direct Contact CTA without Visible Phone Number -->
+        <div class="mentor-contact-box">
+          <div class="mentor-contact-left">
+            <div class="mentor-avatar-badge">MS</div>
+            <div>
+              <strong>Ready to start learning Vibe Coding or need academic & project help?</strong>
+              <p>Connect with M. Subhan directly on WhatsApp for 1-on-1 coaching, full project development, or study inquiries.</p>
+            </div>
+          </div>
+          <a class="btn-whatsapp" href="https://wa.me/923706449349?text=Hi%20M.%20Subhan,%20I%20visited%20Universe%20of%20Resources%20and%20want%20to%20inquire%20about%20skills%20training%20and%20project%20mentorship." target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.27-1.13l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.4c0-2.2.85-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.84-2.41zm-2.4 3.7c-.24 0-.53.09-.81.39-.28.3-1.07 1.05-1.07 2.56s1.1 2.97 1.25 3.17c.15.2 2.12 3.39 5.24 4.63.78.31 1.38.5 1.86.64.78.23 1.49.2 2.05.12.63-.09 1.93-.79 2.2-1.55.27-.77.27-1.42.19-1.56-.08-.14-.3-.23-.63-.39-.33-.17-1.93-.95-2.23-1.06-.3-.11-.52-.17-.74.17-.22.33-.85 1.06-1.04 1.28-.19.22-.39.25-.72.08-.33-.17-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.15-.67.15-.15.33-.39.5-.58.17-.2.22-.33.33-.56.11-.22.06-.42-.03-.58-.08-.17-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01z"/>
+            </svg>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENHANCED STUDENT PERKS & DEALS SECTION (Up to 60% OFF) -->
+    <section class="perks-section shell" id="student-perks">
+      <div class="perks-card-main">
+        <div class="perks-header">
+          <div class="deal-pill">
+            <span class="deal-discount-badge">STUDENT EXCLUSIVE · UP TO 60% OFF</span>
+          </div>
+          <h2>Premium Subscriptions at <em>Half Price.</em></h2>
+          <p>
+            Get instant, verified, high-speed access to the best AI models, professional graphic design suites, ultra-fast VPNs, and streaming screens.
+          </p>
+        </div>
+
+        <div class="perks-grid">
+          <!-- Deal 1: Google AI Pro Plan -->
+          <div class="perk-item item-glow-gold">
+            <div class="perk-top">
+              <div class="perk-brand-wrap">
+                <img src="assets/logos/google_ai_pro.png" alt="Google AI Pro" class="perk-brand-img perk-img-google" loading="lazy" />
+                <span class="perk-category">18-MONTH PLAN</span>
+              </div>
+              <span class="perk-tag perk-tag-hot">50% OFF</span>
+            </div>
+            <h4>Google AI Pro Plan</h4>
+            <p>18-Month complete bundle packed with 18,000 total credits, Agentic AI, and Gemini inside your Google apps.</p>
+            <div class="perk-specs">
+              <span>✦ <strong>1,000 Google Flow Credits / Month</strong> (18,000 Total in 18 Months)</span>
+              <span>✦ <strong>Gemini Spark & Agentic AI</strong> Capabilities</span>
+              <span>✦ <strong>Gemini in Gmail & Google Drive</strong> for Docs & Mail</span>
+              <span>✦ <strong>Antigravity High Token Limits</strong> & Usage Quota</span>
+              <span>✦ <strong>Imagen 3 4K Generation</strong> & Deep Research Mode</span>
+            </div>
+            <div class="perk-footer">
+              <span class="price-strike">Half Price Deal</span>
+              <span class="deal-status">Instant Activation</span>
+            </div>
+          </div>
+
+          <!-- Deal 2: Canva Pro -->
+          <div class="perk-item item-glow-green">
+            <div class="perk-top">
+              <div class="perk-brand-wrap">
+                <img src="assets/logos/canva.png" alt="Canva Pro" class="perk-brand-img perk-img-canva" loading="lazy" />
+                <span class="perk-category">DESIGN SUITE</span>
+              </div>
+              <span class="perk-tag perk-tag-green">60% OFF</span>
+            </div>
+            <h4>Canva Pro</h4>
+            <p>Full unlocked pro design access for students, freelancers, and marketers with zero watermark limits.</p>
+            <div class="perk-specs">
+              <span>✦ <strong>100M+ Premium Templates</strong>, Photos & 4K Elements</span>
+              <span>✦ <strong>1-Click Magic Background Remover</strong> & AI Studio</span>
+              <span>✦ <strong>Custom Brand Kits</strong>, Fonts & Vector SVG Exports</span>
+              <span>✦ <strong>Full Commercial License</strong> & 1TB Cloud Storage</span>
+              <span>✦ <strong>Social Media & Presentation</strong> Infinite Presets</span>
+            </div>
+            <div class="perk-footer">
+              <span class="price-strike">60% Discount</span>
+              <span class="deal-status">Full Lifetime Access</span>
+            </div>
+          </div>
+
+          <!-- Deal 3: ExpressVPN Paid -->
+          <div class="perk-item item-glow-cyan">
+            <div class="perk-top">
+              <div class="perk-brand-wrap">
+                <img src="assets/logos/expressvpn.png" alt="ExpressVPN" class="perk-brand-img perk-img-vpn" loading="lazy" />
+                <span class="perk-category">60+ COUNTRIES</span>
+              </div>
+              <span class="perk-tag">50% OFF</span>
+            </div>
+            <h4>ExpressVPN (Paid)</h4>
+            <p>Ultra-fast encrypted VPN network for safe private browsing, research, gaming, and unblocking global content.</p>
+            <div class="perk-specs">
+              <span>✦ <strong>3,000+ Fast Servers</strong> Across 60+ Countries</span>
+              <span>✦ <strong>100% Safe Connection</strong> & Strict Zero-Logs Policy</span>
+              <span>✦ <strong>Lightway Protocol</strong> for Ultra-Fast Speeds</span>
+              <span>✦ <strong>Unlimited Bandwidth</strong> on Android, iOS, PC & Mac</span>
+              <span>✦ <strong>Public Wi-Fi Shield</strong> & DNS Leak Protection</span>
+            </div>
+            <div class="perk-footer">
+              <span class="price-strike">Half Price</span>
+              <span class="deal-status">Ultra-Fast & Safe</span>
+            </div>
+          </div>
+
+          <!-- Deal 4: Netflix & Amazon Prime -->
+          <div class="perk-item item-glow-purple">
+            <div class="perk-top">
+              <div class="perk-brand-wrap perk-dual-brand">
+                <img src="assets/logos/netflix.png" alt="Netflix" class="perk-brand-img perk-img-netflix" loading="lazy" />
+                <img src="assets/logos/prime_video.png" alt="Prime Video" class="perk-brand-img perk-img-prime" loading="lazy" />
+                <span class="perk-category">4K ULTRA HD</span>
+              </div>
+              <span class="perk-tag">50% OFF</span>
+            </div>
+            <h4>Netflix & Amazon Prime</h4>
+            <p>Private 4K Ultra HD uninterrupted screens with zero freezing, full HDR streaming, and Prime video access.</p>
+            <div class="perk-specs">
+              <span>✦ <strong>Netflix 4K Ultra HD Screen</strong> with Personal PIN</span>
+              <span>✦ <strong>Amazon Prime Video</strong> Full Catalog Unlocked</span>
+              <span>✦ <strong>Zero Freezing & 100% Smooth</strong> Playback Guaranteed</span>
+              <span>✦ <strong>Offline Downloads</strong> for Phone, Tablet & Laptop</span>
+              <span>✦ <strong>Unlimited Movies, Shows</strong> & Documentaries</span>
+            </div>
+            <div class="perk-footer">
+              <span class="price-strike">Half Price</span>
+              <span class="deal-status">Instant Screen Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buy / Order CTA Banner without Visible Phone Number -->
+        <div class="perks-cta-footer">
+          <div class="perks-cta-text">
+            <strong>Ready to claim your 60% student discount?</strong>
+            <p>Send a message on WhatsApp with the tool or plan you want and get it activated within minutes.</p>
+          </div>
+          <a class="btn-whatsapp-glow" href="https://wa.me/923706449349?text=Hi%20Subhan,%20I%20am%20interested%20in%20buying%20Google%20AI%20Pro%20/%20Canva%20Pro%20/%20VPN%20/%20Premium%20Subscriptions%20at%20student%20discount." target="_blank" rel="noopener noreferrer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.27-1.13l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.4c0-2.2.85-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.84-2.41zm-2.4 3.7c-.24 0-.53.09-.81.39-.28.3-1.07 1.05-1.07 2.56s1.1 2.97 1.25 3.17c.15.2 2.12 3.39 5.24 4.63.78.31 1.38.5 1.86.64.78.23 1.49.2 2.05.12.63-.09 1.93-.79 2.2-1.55.27-.77.27-1.42.19-1.56-.08-.14-.3-.23-.63-.39-.33-.17-1.93-.95-2.23-1.06-.3-.11-.52-.17-.74.17-.22.33-.85 1.06-1.04 1.28-.19.22-.39.25-.72.08-.33-.17-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.15-.67.15-.15.33-.39.5-.58.17-.2.22-.33.33-.56.11-.22.06-.42-.03-.58-.08-.17-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01z"/>
+            </svg>
+            <span>Order on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 25. DEDICATED ACADEMIC SUPPORT & STUDY HELP SECTION (M. SUBHAN) -->
+    <section class="study-help-section shell" id="study-help">
+      <div class="study-help-card">
+        <div class="study-help-left">
+          <div class="study-help-badge">
+            <span class="pulse-dot"></span>
+            <span>ACADEMIC SUPPORT & STUDY HELP · DIRECT 1-ON-1</span>
+          </div>
+          <h3>Need help with your studies, notes, or project ideas?</h3>
+          <p>
+            Whether you are stuck on tricky course topics, need semester notes & past papers, want guidance on project ideas, or have any study queries — contact <strong>M. Subhan</strong> directly on WhatsApp for assistance with any question.
+          </p>
+          <div class="study-help-tags">
+            <span>✦ Lecture Notes & Slides</span>
+            <span>✦ Exam & Midterm Prep</span>
+            <span>✦ Project Ideas & Coding</span>
+            <span>✦ Any Academic Query</span>
+          </div>
+        </div>
+        <div class="study-help-right">
+          <a class="btn-whatsapp-study" href="https://wa.me/923706449349?text=Hi%20M.%20Subhan,%20I%20need%20help%20with%20my%20studies%20/%20notes%20/%20academic%20queries." target="_blank" rel="noopener noreferrer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.27-1.13l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.4c0-2.2.85-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.84-2.41zm-2.4 3.7c-.24 0-.53.09-.81.39-.28.3-1.07 1.05-1.07 2.56s1.1 2.97 1.25 3.17c.15.2 2.12 3.39 5.24 4.63.78.31 1.38.5 1.86.64.78.23 1.49.2 2.05.12.63-.09 1.93-.79 2.2-1.55.27-.77.27-1.42.19-1.56-.08-.14-.3-.23-.63-.39-.33-.17-1.93-.95-2.23-1.06-.3-.11-.52-.17-.74.17-.22.33-.85 1.06-1.04 1.28-.19.22-.39.25-.72.08-.33-.17-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.15-.67.15-.15.33-.39.5-.58.17-.2.22-.33.33-.56.11-.22.06-.42-.03-.58-.08-.17-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01z"/>
+            </svg>
+            <span>Ask M. Subhan on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer with Developer Credit & Clean WhatsApp Icon -->
+    <footer class="footer shell">
+      <a href="#top" class="brand">
+        <svg class="brand-icon" viewBox="0 0 50 32" width="32" height="20" fill="none">
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" />
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" />
+          <circle cx="25" cy="16" r="3.5" fill="#8bf542" />
+        </svg>
+        <span class="brand-text">UNIVERSE<span class="brand-sub">OF RESOURCES</span></span>
+      </a>
+
+      <!-- Glowing Developer Credit with Clean WhatsApp Icon -->
+      <div class="subhan-footer-credit">
+        <span>✦ DEVELOPED BY <strong class="subhan-glow-text">M. SUBHAN</strong> · <a href="https://wa.me/923706449349" class="whatsapp-footer-link" target="_blank" rel="noopener" aria-label="Contact M. Subhan on WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.41 1.56 1.56 2.41 3.63 2.41 5.83s-.85 4.27-2.41 5.83c-1.55 1.55-3.62 2.41-5.82 2.41-1.5 0-2.97-.39-4.27-1.13l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.4c0-2.2.85-4.27 2.41-5.83 1.56-1.55 3.63-2.41 5.84-2.41zm-2.4 3.7c-.24 0-.53.09-.81.39-.28.3-1.07 1.05-1.07 2.56s1.1 2.97 1.25 3.17c.15.2 2.12 3.39 5.24 4.63.78.31 1.38.5 1.86.64.78.23 1.49.2 2.05.12.63-.09 1.93-.79 2.2-1.55.27-.77.27-1.42.19-1.56-.08-.14-.3-.23-.63-.39-.33-.17-1.93-.95-2.23-1.06-.3-.11-.52-.17-.74.17-.22.33-.85 1.06-1.04 1.28-.19.22-.39.25-.72.08-.33-.17-1.39-.51-2.64-1.63-.98-.87-1.64-1.95-1.83-2.28-.19-.33-.02-.51.15-.67.15-.15.33-.39.5-.58.17-.2.22-.33.33-.56.11-.22.06-.42-.03-.58-.08-.17-.74-1.78-1.01-2.44-.27-.64-.54-.55-.74-.56-.19-.01-.41-.01-.63-.01z"/></svg> <span>Chat on WhatsApp</span></a> ✦</span>
+      </div>
+
+      <button class="btn-footer-admin" id="showLoginFooter">
+        <span>Admin Portal</span> ↗
+      </button>
+    </footer>
+  </main>
+
+  <!-- Admin View (Protected) -->
+  <section id="adminView" hidden>
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <svg class="brand-icon" viewBox="0 0 50 32" width="34" height="22" fill="none">
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(-20 25 16)" />
+          <ellipse cx="25" cy="16" rx="20" ry="8" stroke="#8bf542" stroke-width="1.8" transform="rotate(25 25 16)" />
+          <circle cx="25" cy="16" r="3.5" fill="#8bf542" />
+        </svg>
+        <span>ADMIN CONSOLE</span>
+      </div>
+
+      <div class="admin-profile">
+        <div class="admin-avatar">AD</div>
+        <div class="admin-info">
+          <strong>Administrator</strong>
+          <small>Resource Vault</small>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <button class="admin-nav-item active" id="adminNavVault">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          <span>Manage Vault</span>
+        </button>
+        <button class="admin-nav-item" id="openAnnouncement">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span>Announcement</span>
+        </button>
+        <button class="admin-nav-item" id="backToPortal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          <span>Back to Student View</span>
+        </button>
+      </nav>
+
+      <button class="admin-logout-btn" id="logout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        <span>Sign Out</span>
+      </button>
+    </aside>
+
+    <!-- Admin Main Body -->
+    <div class="admin-main">
+      <header class="admin-header">
+        <div>
+          <span class="section-eyebrow">RESOURCE MANAGEMENT</span>
+          <h1>Resource <em>Vault.</em></h1>
+        </div>
+        <div class="admin-actions">
+          <button class="btn-secondary" id="backToPortalMain">Student Website</button>
+          <button class="btn-secondary" id="openAnnouncementHeader">Announcement</button>
+          <button class="btn-primary" id="openAdd">+ Add Resource</button>
+        </div>
+      </header>
+
+      <!-- Dashboard KPI Cards -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <span>Total Drive Folders</span>
+          <strong id="adminTotal">00</strong>
+          <small>Across both programs</small>
+        </div>
+        <div class="admin-stat-card">
+          <span>Computer Science</span>
+          <strong id="csTotal">00</strong>
+          <small>Published resources</small>
+        </div>
+        <div class="admin-stat-card">
+          <span>English</span>
+          <strong id="engTotal">00</strong>
+          <small>Published resources</small>
+        </div>
+      </div>
+
+      <!-- Live Announcement Card in Admin -->
+      <div class="admin-announcement-card">
+        <div class="announcement-meta">
+          <span class="announcement-label">CURRENT LIVE ANNOUNCEMENT</span>
+          <strong id="adminAnnouncementTitle">No active announcement</strong>
+          <p id="adminAnnouncementMessage">Create an announcement to show important notices to students.</p>
+        </div>
+        <button class="btn-danger-outline" id="clearAnnouncement" hidden>Remove Announcement</button>
+      </div>
+
+      <!-- Admin Table Section -->
+      <section class="admin-table-section">
+        <div class="table-toolbar">
+          <h2>Published Resources</h2>
+          <div class="table-filters">
+            <select id="adminProgramFilter">
+              <option value="all">All Programs</option>
+              <option value="BS Computer Science">BS Computer Science</option>
+              <option value="BS English">BS English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>RESOURCE TITLE</th>
+                <th>PROGRAM</th>
+                <th>SEMESTER</th>
+                <th>GOOGLE DRIVE LINK</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody id="adminResourceList">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div class="modal-backdrop" id="loginModal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" data-close aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8bf542" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <span class="section-eyebrow">RESTRICTED ACCESS</span>
+        <h2>Admin <em>Portal.</em></h2>
+        <p>Sign in to add and manage resource folders.</p>
+      </div>
+      <form id="loginForm" class="modal-form">
+        <div class="form-group">
+          <label for="passwordInput">ADMIN PASSWORD</label>
+          <input id="passwordInput" type="password" placeholder="Enter password" autocomplete="current-password" required />
+        </div>
+        <p class="form-error" id="loginError"></p>
+        <button class="btn-primary btn-block" type="submit">
+          <span>Enter Dashboard</span>
+          <span>↗</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Resource Modal -->
+  <div class="modal-backdrop" id="addModal" hidden>
+    <div class="modal-card modal-card-wide">
+      <button class="modal-close" data-close aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="section-eyebrow">NEW RESOURCE</span>
+        <h2>Add a <em>Folder.</em></h2>
+        <p>Publish a new Google Drive folder link for students.</p>
+      </div>
+      <form id="resourceForm" class="modal-form">
+        <div class="form-group">
+          <label for="resTitle">RESOURCE TITLE</label>
+          <input id="resTitle" name="title" maxlength="80" placeholder="e.g. OOP Lecture Slides & Code" required />
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resProgram">PROGRAM</label>
+            <select id="resProgram" name="program">
+              <option value="BS Computer Science">BS Computer Science</option>
+              <option value="BS English">BS English</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="semesterSelect">SEMESTER</label>
+            <select name="semester" id="semesterSelect">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="resUrl">GOOGLE DRIVE FOLDER URL</label>
+          <input id="resUrl" name="url" type="url" placeholder="https://drive.google.com/drive/folders/..." required />
+        </div>
+
+        <div class="form-group">
+          <label for="resDesc">SHORT DESCRIPTION (OPTIONAL)</label>
+          <textarea id="resDesc" name="description" maxlength="200" placeholder="Brief note on what is included (e.g. Midterm slides, handwritten notes, books)."></textarea>
+        </div>
+
+        <button class="btn-primary btn-block" type="submit">
+          <span>Publish Resource</span>
+          <span>↗</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div class="modal-backdrop" id="announcementModal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" data-close aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <span class="section-eyebrow">STUDENT UPDATE</span>
+        <h2>Publish an <em>Announcement.</em></h2>
+        <p>Broadcast an important notice to all students.</p>
+      </div>
+      <form id="announcementForm" class="modal-form">
+        <div class="form-group">
+          <label for="annTitle">ANNOUNCEMENT TITLE</label>
+          <input id="annTitle" name="title" maxlength="90" placeholder="e.g. Midterm Exams Schedule Released" required />
+        </div>
+        <div class="form-group">
+          <label for="annMessage">MESSAGE</label>
+          <textarea id="annMessage" name="message" maxlength="280" placeholder="Write the update details clearly here..." required></textarea>
+        </div>
+        <button class="btn-primary btn-block" type="submit">
+          <span>Publish Announcement</span>
+          <span>↗</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase v10 Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Optimized Main JavaScript -->
+  <script src="app.js"></script>
+</body>
 </html>
