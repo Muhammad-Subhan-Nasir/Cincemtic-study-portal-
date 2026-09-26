@@ -102,9 +102,13 @@ async function authenticateAdmin(email, pass) {
   const cleanEmail = (email || '').toLowerCase().trim();
   const rawPass = (pass || '').trim();
 
-  // Strict Identity Verification: Only the designated Super Admin email is permitted
-  const AUTHORIZED_ADMIN_EMAIL = 'subhanwhysubhan@gmail.com';
-  if (cleanEmail !== AUTHORIZED_ADMIN_EMAIL) {
+  // Strict Identity Verification: whysubhan@gmail.com is the primary authorized email
+  const AUTHORIZED_ADMIN_EMAILS = new Set([
+    'whysubhan@gmail.com',
+    'subhanwhysubhan@gmail.com',
+    'whsubhan@gmail.com'
+  ]);
+  if (!AUTHORIZED_ADMIN_EMAILS.has(cleanEmail)) {
     return { success: false, error: 'Unauthorized administrative identity.' };
   }
 
@@ -135,8 +139,11 @@ async function authenticateAdmin(email, pass) {
     rawPass.replace(/\s+/g, '')
   ];
 
-  // Cryptographically enforced SHA-256 challenge digests for subhanwhysubhan@gmail.com
+  // Cryptographically enforced SHA-256 challenge digests
   const acceptedHashes = new Set([
+    "695acae284f8656fba88e70bc9d5807e4598cabc16f525cdc9f58f22e7b46045", // whysubhan@gmail.com::qweasd
+    "7187c52a7f67fe741910022e277a55cf73aeb94c50b9735b4553c7bafb1d14c8", // whysubhan@gmail.com::qweasd qweasd
+    "b03877f796d224b2ba24b23f1b50ee29f05ad6552d4063a25656a1a0dda36fc5", // whysubhan@gmail.com::qweasdqweasd
     "fd91f5dc3358e92554edebc947e1a99d424229afafe6fbcbfd62f1312670a5ac", // subhanwhysubhan@gmail.com::qweasd
     "bb18462205507dd8870feecba83a5ab2c7bd98305e339af7d61cc17d6406d9f8", // subhanwhysubhan@gmail.com::qweasd qweasd
     "c9aea6408c9d8a26752bfa3456753a58d086de4d838b9059c00269694651acbc"  // subhanwhysubhan@gmail.com::qweasdqweasd
