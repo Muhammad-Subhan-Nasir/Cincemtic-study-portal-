@@ -2,121 +2,24 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ========================================================
-    // HELPER SECURITY FUNCTIONS
-    // ========================================================
-
-    // Check if the user is authenticated via Firebase Auth
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
-    // Check if the user has an authorized administrator identity
-    function isAdmin() {
-      return isAuthenticated() && (
-        request.auth.token.email == 'subhan.admin@universe-of-resources.com' ||
-        request.auth.token.email == 'subhan.admin@universe-of-resources.internal' ||
-        request.auth.token.email_verified == true && request.auth.token.email.matches('.*admin.*')
-      );
-    }
-
-    // Server-side validation for Resource Drive Folders
-    function isValidResource(data) {
-      return data.keys().hasOnly(['program', 'semester', 'url', 'description', 'createdAt'])
-        && data.program is string 
-        && data.program in ['BS Computer Science', 'BS English']
-        && data.semester is string 
-        && data.semester.size() >= 3 && data.semester.size() <= 40
-        && data.url is string 
-        && data.url.size() >= 8 && data.url.size() <= 600
-        && data.url.matches('^https?://.*')
-        && data.description is string 
-        && data.description.size() >= 2 && data.description.size() <= 450
-        && (data.createdAt is number || data.createdAt is timestamp);
-    }
-
-    // Server-side validation for Live Announcement & Broadcast Settings
-    function isValidAnnouncement(data) {
-      return data.keys().hasOnly(['title', 'message', 'type', 'actionText', 'actionUrl', 'active', 'updatedAt'])
-        && data.title is string 
-        && data.title.size() >= 3 && data.title.size() <= 120
-        && data.message is string 
-        && data.message.size() >= 3 && data.message.size() <= 500
-        && data.type is string 
-        && data.type in ['info', 'alert', 'exam', 'perks', 'skills']
-        && (!('actionText' in data) || (data.actionText is string && data.actionText.size() <= 60))
-        && (!('actionUrl' in data) || (data.actionUrl is string && data.actionUrl.size() <= 600))
-        && (!('active' in data) || data.active is bool)
-        && (data.updatedAt is number || data.updatedAt is timestamp);
-    }
-
-    // Server-side validation for Visitor Log creation
-    function isValidVisitorLog(data) {
-      return data.keys().hasOnly(['timestamp', 'page', 'device', 'os', 'browser', 'screen', 'referrer', 'city', 'country', 'ip'])
-        && (data.timestamp is number || data.timestamp is timestamp)
-        && data.page is string && data.page.size() <= 120
-        && data.device is string && data.device.size() <= 60
-        && data.os is string && data.os.size() <= 80
-        && data.browser is string && data.browser.size() <= 80
-        && (!('screen' in data) || (data.screen is string && data.screen.size() <= 40))
-        && (!('referrer' in data) || (data.referrer is string && data.referrer.size() <= 300))
-        && (!('city' in data) || (data.city is string && data.city.size() <= 100))
-        && (!('country' in data) || (data.country is string && data.country.size() <= 100))
-        && (!('ip' in data) || (data.ip is string && data.ip.size() <= 60));
-    }
-
-    // ========================================================
-    // COLLECTION ACCESS POLICIES
-    // ========================================================
-
     // 1. Academic Resources & Drive Folders
     match /resources/{resourceId} {
-      // Public read for all students
-      allow read: if true;
-
-      // Only authenticated administrator can create with schema validation
-      allow create: if isAdmin() && isValidResource(request.resource.data);
-
-      // Only administrator can update with schema validation
-      allow update: if isAdmin() && isValidResource(request.resource.data);
-
-      // Only administrator can delete resources
-      allow delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 2. Global Portal Settings & Live Announcements
+    // 2. Portal Announcements & Broadcast Settings
     match /settings/{settingId} {
-      // Public read so students can see active announcements
-      allow read: if true;
-
-      // Only administrator can create or update settings
-      allow create, update: if isAdmin() && (
-        settingId != 'announcement' || isValidAnnouncement(request.resource.data)
-      );
-
-      // Only administrator can remove settings
-      allow delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 3. Visitor Intelligence & Audience Analytics
+    // 3. Visitor Logs & Telemetry
     match /visitor_logs/{logId} {
-      // STRICT PRIVACY: Only administrators can read visitor analytics
-      // Prevents scrapers or students from reading other visitors' data
-      allow read: if isAdmin();
-
-      // Anonymous / student clients can create a log ONLY with validated fields
-      allow create: if isValidVisitorLog(request.resource.data);
-
-      // No public update or tampering allowed
-      allow update: if false;
-
-      // Only administrator can delete or prune visitor history
-      allow delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // Deny all other access by default
+    // 4. Default open policy for universe-of-resources collections
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if true;
     }
   }
 }

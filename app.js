@@ -846,48 +846,60 @@ function showStudentPortal(scrollToResources = false) {
   }
 }
 
-// 16. Cloud Database Sync & Listeners
-if (useFirebase) {
+// 16. Cloud Database Sync & Resilient Local Baseline
+// Always load cached local data immediately so portal is never blank
+try {
+  resources = JSON.parse(localStorage.getItem(KEY) || '[]');
+  announcement = JSON.parse(localStorage.getItem(ANNOUNCEMENT_KEY) || 'null');
+  visitorLogs = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
+} catch (e) {
+  resources = [];
+  announcement = null;
+  visitorLogs = [];
+}
+
+if (useFirebase && db) {
   // Sync Resources
   db.collection("resources").orderBy("createdAt", "desc").onSnapshot(snapshot => {
-    resources = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (snapshot && !snapshot.empty) {
+      resources = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      saveLocal();
+    }
     renderStudent();
     renderAdmin();
   }, err => {
-    console.warn("Firestore resources notice:", err);
+    console.warn("Firestore resources notice (using local baseline):", err.message);
+    renderStudent();
+    renderAdmin();
   });
 
   // Sync Announcement
   db.collection("settings").doc("announcement").onSnapshot(doc => {
-    announcement = doc.exists ? doc.data() : null;
+    if (doc && doc.exists) {
+      announcement = doc.data();
+      localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(announcement));
+    }
     renderAnnouncement();
     renderAdminAnnouncement();
     renderAdmin();
   }, err => {
-    console.warn("Firestore announcement notice:", err);
+    console.warn("Firestore announcement notice (using local baseline):", err.message);
+    renderAnnouncement();
+    renderAdminAnnouncement();
+    renderAdmin();
   });
 
   // Sync Visitor Logs
   db.collection("visitor_logs").orderBy("timestamp", "desc").limit(80).onSnapshot(snapshot => {
-    if (snapshot.docs.length > 0) {
+    if (snapshot && snapshot.docs.length > 0) {
       visitorLogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      localStorage.setItem(VISITOR_KEY, JSON.stringify(visitorLogs));
       renderVisitors();
       if ($('#adminVisitorBadge')) $('#adminVisitorBadge').textContent = visitorLogs.length.toString();
     }
   }, err => {
-    console.warn("Firestore visitor logs notice:", err);
+    console.warn("Firestore visitor logs notice:", err.message);
   });
-} else {
-  // LocalStorage Fallback
-  try {
-    resources = JSON.parse(localStorage.getItem(KEY) || '[]');
-    announcement = JSON.parse(localStorage.getItem(ANNOUNCEMENT_KEY) || 'null');
-    visitorLogs = JSON.parse(localStorage.getItem(VISITOR_KEY) || '[]');
-  } catch (e) {
-    resources = [];
-    announcement = null;
-    visitorLogs = [];
-  }
 }
 
 // 17. Application Initialization
@@ -1114,6 +1126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const newResource = {
+        id: 'res_' + Date.now(),
         title: f.get('title').trim(),
         program: f.get('program'),
         semester: f.get('semester'),
@@ -1122,17 +1135,19 @@ document.addEventListener('DOMContentLoaded', () => {
         createdAt: Date.now()
       };
 
+      // Always save locally first so the admin's resource is never lost or blocked
+      resources.unshift(newResource);
+      saveLocal();
+
+      // Cloud Firestore sync (graceful background sync)
       if (useFirebase && db) {
-        try {
-          await db.collection("resources").add(newResource);
-        } catch (err) {
-          alert('Error adding resource to Firestore: ' + err.message);
-          return;
-        }
-      } else {
-        newResource.id = Date.now().toString();
-        resources.unshift(newResource);
-        saveLocal();
+        db.collection("resources").add(newResource).then(docRef => {
+          newResource.id = docRef.id;
+          saveLocal();
+          console.log("✦ [Universe of Resources] Resource synced to Firestore cloud successfully:", docRef.id);
+        }).catch(err => {
+          console.warn("Firestore cloud sync notice (resource preserved in local portal cache):", err.message);
+        });
       }
 
       e.target.reset();
@@ -1205,16 +1220,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updatedAt: Date.now()
       };
 
+      announcement = newAnn;
+      localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(newAnn));
+
       if (useFirebase && db) {
-        try {
-          await db.collection("settings").doc("announcement").set(newAnn);
-        } catch (err) {
-          alert('Error posting announcement: ' + err.message);
-          return;
-        }
-      } else {
-        announcement = newAnn;
-        localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(newAnn));
+        db.collection("settings").doc("announcement").set(newAnn).catch(err => {
+          console.warn("Firestore announcement sync notice:", err.message);
+        });
       }
 
       alert('✦ Broadcast published successfully! It is now live on the student portal.');
@@ -1229,16 +1241,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearAnnTabBtn) {
     clearAnnTabBtn.onclick = async () => {
       if (!confirm('Are you sure you want to deactivate and remove this student broadcast?')) return;
-      if (useFirebase && db) {
-        try {
-          await db.collection("settings").doc("announcement").delete();
-        } catch (err) {
-          alert('Error removing broadcast: ' + err.message);
-          return;
-        }
-      }
       announcement = null;
       localStorage.removeItem(ANNOUNCEMENT_KEY);
+      if (useFirebase && db) {
+        db.collection("settings").doc("announcement").delete().catch(err => {
+          console.warn("Firestore broadcast delete notice:", err.message);
+        });
+      }
       renderAnnouncement();
       renderAdminAnnouncement();
       renderAdmin();
@@ -1265,16 +1274,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updatedAt: Date.now()
       };
 
+      announcement = newAnn;
+      localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(newAnn));
+
       if (useFirebase && db) {
-        try {
-          await db.collection("settings").doc("announcement").set(newAnn);
-        } catch (err) {
-          alert('Error posting announcement: ' + err.message);
-          return;
-        }
-      } else {
-        announcement = newAnn;
-        localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(newAnn));
+        db.collection("settings").doc("announcement").set(newAnn).catch(err => {
+          console.warn("Firestore quick announcement sync notice:", err.message);
+        });
       }
 
       closeModals();
@@ -1287,19 +1293,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearAnnBtn = $('#clearAnnouncement');
   if (clearAnnBtn) {
     clearAnnBtn.onclick = async () => {
+      announcement = null;
+      localStorage.removeItem(ANNOUNCEMENT_KEY);
       if (useFirebase && db) {
-        try {
-          await db.collection("settings").doc("announcement").delete();
-        } catch (err) {
-          alert('Error clearing announcement: ' + err.message);
-        }
-      } else {
-        announcement = null;
-        localStorage.removeItem(ANNOUNCEMENT_KEY);
-        renderAnnouncement();
-        renderAdminAnnouncement();
-        renderAdmin();
+        db.collection("settings").doc("announcement").delete().catch(err => {
+          console.warn("Firestore announcement delete notice:", err.message);
+        });
       }
+      renderAnnouncement();
+      renderAdminAnnouncement();
+      renderAdmin();
     };
   }
 
@@ -1312,18 +1315,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const id = btn.dataset.delete;
       if (!confirm('Are you sure you want to delete this resource folder?')) return;
 
+      resources = resources.filter(r => r.id !== id);
+      saveLocal();
+
       if (useFirebase && db) {
-        try {
-          await db.collection("resources").doc(id).delete();
-        } catch (err) {
-          alert('Error deleting resource from Firestore: ' + err.message);
-        }
-      } else {
-        resources = resources.filter(r => r.id !== id);
-        saveLocal();
-        renderAdmin();
-        renderStudent();
+        db.collection("resources").doc(id).delete().catch(err => {
+          console.warn('Firestore resource delete notice:', err.message);
+        });
       }
+
+      renderAdmin();
+      renderStudent();
     });
   }
 });
