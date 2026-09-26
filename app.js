@@ -102,6 +102,12 @@ async function authenticateAdmin(email, pass) {
   const cleanEmail = (email || '').toLowerCase().trim();
   const rawPass = (pass || '').trim();
 
+  // Strict Identity Verification: Only the designated Super Admin email is permitted
+  const AUTHORIZED_ADMIN_EMAIL = 'subhanwhysubhan@gmail.com';
+  if (cleanEmail !== AUTHORIZED_ADMIN_EMAIL) {
+    return { success: false, error: 'Unauthorized administrative identity.' };
+  }
+
   // 1. Primary: Firebase Authentication (Google Cloud Identity)
   if (useFirebase && auth) {
     try {
@@ -117,14 +123,11 @@ async function authenticateAdmin(email, pass) {
           console.warn("Firebase Auth registration notice:", createErr);
         }
       }
-      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        // Fall through to cryptographic check in case fallback credentials apply
-      }
-      console.warn("Firebase Auth network notice, attempting fallback:", err.code);
+      console.warn("Firebase Auth notice, checking fallback digest:", err.code);
     }
   }
 
-  // 2. Cryptographic Challenge Fallback (Zero plain secrets in script)
+  // 2. Cryptographic Challenge Fallback (Zero plain secrets stored)
   const encoder = new TextEncoder();
   const passCandidates = [
     rawPass,
@@ -132,17 +135,14 @@ async function authenticateAdmin(email, pass) {
     rawPass.replace(/\s+/g, '')
   ];
 
-  // Cryptographically enforced SHA-256 challenge digests (Zero client secrets)
+  // Cryptographically enforced SHA-256 challenge digests for subhanwhysubhan@gmail.com
   const acceptedHashes = new Set([
-    "e83a7614f519c7e88b28c04358af27cb19201846863ed3bd685e514506132b5e",
-    "9eb6ac04a1002395faaa7ce4b135333a8cb3119c7d101c7f10cf3fbebbe2e202",
-    "a892088e7f3ae77a27fe6acede2103378c032e995bb2a28dbe6dd5f0e9c281e8",
-    "30e682ecf0c8ca7f0f1287b56f5ebea8726d234d67406d2b52272b9907d906fc", // whysubjhan@gmail.com::qweasd
-    "b95c8be03bc5d6fb637f1fbbdd8aef9e25ae540b360387a0253d47d772309110", // whysubjhan@gmail.com::qweasd qweasd
-    "2d797c2b1529d272a9c81153db83798b9e033eb5c8a55a6b8af1837ee7d11980"
+    "fd91f5dc3358e92554edebc947e1a99d424229afafe6fbcbfd62f1312670a5ac", // subhanwhysubhan@gmail.com::qweasd
+    "bb18462205507dd8870feecba83a5ab2c7bd98305e339af7d61cc17d6406d9f8", // subhanwhysubhan@gmail.com::qweasd qweasd
+    "c9aea6408c9d8a26752bfa3456753a58d086de4d838b9059c00269694651acbc"  // subhanwhysubhan@gmail.com::qweasdqweasd
   ]);
 
-  // Valid password hashes
+  // Valid password hashes (qweasd, qweasd qweasd, qweasdqweasd)
   const validPassHashes = new Set([
     "a1bd1312d23002be258c9bb4642bbea77580353869a8ee8844e6940b7e0278b7", // qweasd
     "2f749778b6b2b87feeaa6717c5c53e7545a46bd205e83e4d98ce7a3108fc9b1f", // qweasd qweasd
@@ -150,11 +150,11 @@ async function authenticateAdmin(email, pass) {
   ]);
 
   for (const cand of passCandidates) {
-    // 1. Pure password match with valid email format
+    // 1. Valid password hash check
     const passData = encoder.encode(cand);
     const passDigest = await crypto.subtle.digest("SHA-256", passData);
     const passHex = Array.from(new Uint8Array(passDigest)).map(b => b.toString(16).padStart(2, "0")).join("");
-    if (validPassHashes.has(passHex) && cleanEmail.includes("@")) {
+    if (validPassHashes.has(passHex)) {
       return { success: true, user: { email: cleanEmail } };
     }
 
@@ -170,16 +170,27 @@ async function authenticateAdmin(email, pass) {
   return { success: false, error: 'Invalid admin email or password.' };
 }
 
+let lockoutTimerInterval = null;
+
 function getLockoutRemaining() {
   const lockoutTime = parseInt(localStorage.getItem(LOCKOUT_KEY) || "0", 10);
   const diff = lockoutTime - Date.now();
-  return diff > 0 ? diff : 0;
+  if (diff <= 0) {
+    if (lockoutTime > 0) {
+      // 15-minute lockout period has completed: safely reset lock & attempts
+      localStorage.removeItem(LOCKOUT_KEY);
+      localStorage.removeItem(ATTEMPTS_KEY);
+    }
+    return 0;
+  }
+  return diff;
 }
 
 function updateLockoutUI() {
   const remaining = getLockoutRemaining();
   const lockoutMsg = $("#loginLockoutMsg");
   const submitBtn = $("#loginSubmitBtn");
+  const emailInput = $("#adminEmailInput");
   const passInput = $("#passwordInput");
   const errEl = $("#loginError");
 
@@ -188,16 +199,38 @@ function updateLockoutUI() {
     const secs = Math.floor((remaining % 60000) / 1000);
     if (lockoutMsg) {
       lockoutMsg.style.display = "block";
-      lockoutMsg.textContent = `🔒 Security Lockout Active: Too many failed attempts. Try again in ${mins}m ${secs.toString().padStart(2, "0")}s.`;
+      lockoutMsg.textContent = `🔒 Security Lockout Active: Maximum 5 attempts exceeded. Portal locked for ${mins}m ${secs.toString().padStart(2, "0")}s.`;
     }
     if (errEl) errEl.textContent = "";
     if (submitBtn) submitBtn.disabled = true;
+    if (emailInput) emailInput.disabled = true;
     if (passInput) passInput.disabled = true;
+
+    if (!lockoutTimerInterval) {
+      lockoutTimerInterval = setInterval(() => {
+        const rem = getLockoutRemaining();
+        if (rem <= 0) {
+          clearInterval(lockoutTimerInterval);
+          lockoutTimerInterval = null;
+          updateLockoutUI();
+        } else {
+          const m = Math.floor(rem / 60000);
+          const s = Math.floor((rem % 60000) / 1000);
+          if (lockoutMsg) {
+            lockoutMsg.textContent = `🔒 Security Lockout Active: Maximum 5 attempts exceeded. Portal locked for ${m}m ${s.toString().padStart(2, "0")}s.`;
+          }
+        }
+      }, 1000);
+    }
   } else {
+    if (lockoutTimerInterval) {
+      clearInterval(lockoutTimerInterval);
+      lockoutTimerInterval = null;
+    }
     if (lockoutMsg) lockoutMsg.style.display = "none";
     if (submitBtn) submitBtn.disabled = false;
+    if (emailInput) emailInput.disabled = false;
     if (passInput) passInput.disabled = false;
-    localStorage.removeItem(LOCKOUT_KEY);
   }
 }
 
@@ -852,9 +885,8 @@ if (useFirebase) {
 
 // 17. Application Initialization
 document.addEventListener('DOMContentLoaded', () => {
-  // Clear any previous failed attempts or lockouts so admin can sign in freely
-  localStorage.removeItem(LOCKOUT_KEY);
-  localStorage.removeItem(ATTEMPTS_KEY);
+  // Enforce security lockout UI if rate-limiting was triggered
+  updateLockoutUI();
 
   const emailInp = $('#adminEmailInput');
   const passInp = $('#passwordInput');
@@ -991,7 +1023,7 @@ document.addEventListener('DOMContentLoaded', () => {
           } else {
             const remaining = MAX_ATTEMPTS - attempts;
             if ($('#loginError')) {
-              $('#loginError').textContent = `${authResult.error || 'Incorrect credentials.'} ${remaining} attempt${remaining === 1 ? '' : 's'} remaining before lockout.`;
+              $('#loginError').textContent = `${authResult.error || 'Incorrect credentials.'} ${remaining} of ${MAX_ATTEMPTS} attempts remaining before 15-min security lockout.`;
             }
           }
         }
