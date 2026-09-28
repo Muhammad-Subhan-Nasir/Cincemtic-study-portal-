@@ -859,14 +859,21 @@ try {
 }
 
 if (useFirebase && db) {
-  // Sync Resources
+  // Sync Resources from Firestore
   db.collection("resources").orderBy("createdAt", "desc").onSnapshot(snapshot => {
-    if (snapshot && !snapshot.empty) {
-      resources = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    if (snapshot) {
+      resources = snapshot.docs.map(doc => {
+        const data = doc.data() || {};
+        return {
+          ...data,
+          id: doc.id, // True Firestore Document ID always takes precedence
+          _legacyId: data.id || null
+        };
+      });
       saveLocal();
+      renderStudent();
+      renderAdmin();
     }
-    renderStudent();
-    renderAdmin();
   }, err => {
     console.warn("Firestore resources notice (using local baseline):", err.message);
     renderStudent();
@@ -1125,8 +1132,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const docRef = (useFirebase && db) ? db.collection("resources").doc() : null;
+      const resourceId = docRef ? docRef.id : ('res_' + Date.now());
+
       const newResource = {
-        id: 'res_' + Date.now(),
+        id: resourceId,
         title: f.get('title').trim(),
         program: f.get('program'),
         semester: f.get('semester'),
@@ -1140,11 +1150,9 @@ document.addEventListener('DOMContentLoaded', () => {
       saveLocal();
 
       // Cloud Firestore sync (graceful background sync)
-      if (useFirebase && db) {
-        db.collection("resources").add(newResource).then(docRef => {
-          newResource.id = docRef.id;
-          saveLocal();
-          console.log("✦ [Universe of Resources] Resource synced to Firestore cloud successfully:", docRef.id);
+      if (docRef) {
+        docRef.set(newResource).then(() => {
+          console.log("✦ [Universe of Resources] Resource synced to Firestore cloud successfully:", resourceId);
         }).catch(err => {
           console.warn("Firestore cloud sync notice (resource preserved in local portal cache):", err.message);
         });
@@ -1315,17 +1323,50 @@ document.addEventListener('DOMContentLoaded', () => {
       const id = btn.dataset.delete;
       if (!confirm('Are you sure you want to delete this resource folder?')) return;
 
-      resources = resources.filter(r => r.id !== id);
+      // Find the resource object locally
+      const toDelete = resources.find(r => r.id === id || r._legacyId === id);
+
+      // Instantly remove from local state and UI
+      resources = resources.filter(r => r.id !== id && (!toDelete || r !== toDelete));
       saveLocal();
-
-      if (useFirebase && db) {
-        db.collection("resources").doc(id).delete().catch(err => {
-          console.warn('Firestore resource delete notice:', err.message);
-        });
-      }
-
       renderAdmin();
       renderStudent();
+
+      // Delete from Firestore Cloud
+      if (useFirebase && db) {
+        try {
+          // 1. Delete directly by document ID
+          await db.collection("resources").doc(id).delete();
+          console.log("✦ Direct delete executed for:", id);
+        } catch (err) {
+          console.warn("Direct delete note:", err.message);
+        }
+
+        // 2. Fallback: If id was a legacy ID (e.g. res_...), search and delete by field
+        try {
+          const querySnap = await db.collection("resources").where("id", "==", id).get();
+          if (!querySnap.empty) {
+            const batch = db.batch();
+            querySnap.docs.forEach(d => batch.delete(d.ref));
+            await batch.commit();
+            console.log("✦ Query-based delete executed for legacy ID:", id);
+          }
+        } catch (err) {
+          console.warn("Query delete fallback note:", err.message);
+        }
+
+        // 3. Fallback: Also delete if matched by _legacyId
+        if (toDelete && toDelete._legacyId && toDelete._legacyId !== id) {
+          try {
+            const snap2 = await db.collection("resources").where("id", "==", toDelete._legacyId).get();
+            if (!snap2.empty) {
+              const batch = db.batch();
+              snap2.docs.forEach(d => batch.delete(d.ref));
+              await batch.commit();
+            }
+          } catch (e) {}
+        }
+      }
     });
   }
 });
