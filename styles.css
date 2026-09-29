@@ -881,18 +881,18 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: clamp(32px, 3.8vw, 42px);
-  height: clamp(32px, 3.8vw, 42px);
+  width: clamp(40px, 4.6vw, 52px);
+  height: clamp(40px, 4.6vw, 52px);
   vertical-align: middle;
   border-radius: 50%;
   background: #ffffff;
-  padding: 3px;
-  border: 1.5px solid rgba(220, 38, 38, 0.7);
-  box-shadow: 0 0 16px rgba(220, 38, 38, 0.45), 0 4px 10px rgba(0, 0, 0, 0.4);
-  margin: 0 6px 3px 6px;
+  padding: 2.5px;
+  border: 1.5px solid rgba(220, 38, 38, 0.75);
+  box-shadow: 0 0 18px rgba(220, 38, 38, 0.5), 0 4px 12px rgba(0, 0, 0, 0.45);
+  margin: 0 7px 4px 7px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  top: -2px;
+  top: -3px;
 }
 
 .vision-logo-badge:hover {
