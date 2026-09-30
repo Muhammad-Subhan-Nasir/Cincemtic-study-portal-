@@ -182,9 +182,12 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     return matches.slice(0, 4);
   }
 
-  // 7. Google Gemini 1.5 Flash API Caller
-  async function callGeminiFlashAPI(userPrompt, history, apiKey) {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+  // 7. Google Gemini 2.0 Flash API Caller (with automatic 1.5 Flash fallback)
+  const GEMINI_PRIMARY_MODEL = 'gemini-2.0-flash';
+  const GEMINI_FALLBACK_MODEL = 'gemini-1.5-flash';
+
+  async function callGeminiModel(modelName, userPrompt, history, apiKey) {
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
     // Build multi-turn context (last 6 turns)
     const recent = history.slice(-6);
@@ -242,10 +245,23 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     const replyText = candidate?.content?.parts?.[0]?.text;
 
     if (!replyText) {
-      throw new Error('Gemini API returned an empty candidate text.');
+      throw new Error(`Gemini (${modelName}) returned an empty candidate text.`);
     }
 
     return replyText;
+  }
+
+  async function callGeminiFlashAPI(userPrompt, history, apiKey) {
+    try {
+      return await callGeminiModel(GEMINI_PRIMARY_MODEL, userPrompt, history, apiKey);
+    } catch (primaryErr) {
+      console.warn(`Gemini 2.0 Flash notice (${primaryErr.message}). Falling back to Gemini 1.5 Flash...`);
+      try {
+        return await callGeminiModel(GEMINI_FALLBACK_MODEL, userPrompt, history, apiKey);
+      } catch (fallbackErr) {
+        throw primaryErr;
+      }
+    }
   }
 
   // 8. Offline Knowledge Fallback (When no key or network issue)
@@ -304,7 +320,7 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
       if (currentKey) {
         if (keyBtn) keyBtn.classList.add('has-key');
         if (statusText) {
-          statusText.textContent = "⚡ Gemini 1.5 Flash Connected · Real AI Intelligence Active";
+          statusText.textContent = "⚡ Gemini 2.0 Flash Connected · Next-Gen AI Active";
         }
         if (apiKeyInput) {
           apiKeyInput.value = currentKey;
@@ -366,8 +382,8 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
         // Push confirmation bot message
         chatHistory.push({
           sender: 'bot',
-          rawText: "Gemini 1.5 Flash AI connected!",
-          text: `🎉 **Google Gemini 1.5 Flash AI successfully connected!**\n\nAb Subhan AI real generative intelligence se operate karega! Aap mujh se Roman Urdu ya English mein koi bhi sawal pooch sakte hain — coding problems, GCUF past papers, assignment help, ya semester guidance!`,
+          rawText: "Gemini 2.0 Flash AI connected!",
+          text: `🎉 **Google Gemini 2.0 Flash AI successfully connected!**\n\nAb Subhan AI Google ke latest high-speed intelligence engine se operate karega! Aap mujh se Roman Urdu ya English mein koi bhi sawal pooch sakte hain — coding questions, GCUF past papers, assignments, ya semester guidance!`,
           chips: ['📂 BS CS 3rd Sem Folders', '📝 GCUF Past Papers', '🏛️ ASPIRE College Info', '💬 Ask Subhan']
         });
         saveChatHistory();
@@ -407,9 +423,9 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
       let welcomeMsg = '';
 
       if (hasKey) {
-        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka official virtual study mentor.\n\n⚡ **Google Gemini 1.5 Flash AI** active hai! Main aapko teacher lecture slides, past examination papers, syllabus aur complex CS/English academic guidance provide kar sakta hoon.\n\nAap Roman Urdu ya English mein kuch bhi pooch sakte hain!`;
+        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka official virtual study mentor.\n\n⚡ **Google Gemini 2.0 Flash AI** active hai! Main aapko teacher lecture slides, past examination papers, syllabus aur complex CS/English academic guidance provide kar sakta hoon.\n\nAap Roman Urdu ya English mein kuch bhi pooch sakte hain!`;
       } else {
-        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka virtual academic mentor.\n\nMain aapko real Google Gemini 1.5 Flash AI se connect kar ke smart aur human-like jawab deta hoon.\n\n🔑 **Gemini AI Activate Kaise Karein?**\nUpar header mein **🔑 icon** dabayein ya neeche **"Enter Gemini Key"** par click karein. Agar key nahi hai toh Google AI Studio se 30 second mein free le lein!`;
+        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka virtual academic mentor.\n\nMain aapko real Google Gemini 2.0 Flash AI se connect kar ke smart aur human-like jawab deta hoon.\n\n🔑 **Gemini AI Activate Kaise Karein?**\nUpar header mein **🔑 icon** dabayein ya neeche **"Enter Gemini Key"** par click karein. Agar key nahi hai toh Google AI Studio se 30 second mein free le lein!`;
       }
 
       chatHistory.push({
