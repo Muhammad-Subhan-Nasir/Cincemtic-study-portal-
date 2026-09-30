@@ -54,6 +54,10 @@ let db = null;
 let auth = null;
 let useFirebase = false;
 
+// Global helper for Subhan AI Chatbot & search components
+window.getVaultResources = () => resources;
+window.getVaultPrograms = () => ['BS Computer Science', 'BS English'];
+
 // 5. Initialize Firebase Core, Auth & Firestore
 if (window.firebase && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
   try {

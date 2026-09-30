@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
   
   <!-- Unified Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3.4" />
+  <link rel="stylesheet" href="styles.css?v=3.5" />
 </head>
 <body data-page="skills">
   <!-- Fullscreen Subtle Background Starfield Canvas -->
@@ -25,6 +25,23 @@
   <!-- Ambient background glow (GPU accelerated) -->
   <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+
+  <!-- Floating Subhan AI Chatbot Launcher Button -->
+  <button id="subhanAiTrigger" class="floating-ai-btn" type="button" aria-label="Open Subhan AI Study Assistant" title="Ask Subhan AI (Study Assistant)">
+    <span class="ai-unread-badge" id="aiUnreadBadge">1</span>
+    <div class="ai-btn-inner">
+      <svg class="ai-icon-robot" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="10" rx="4"></rect>
+        <circle cx="8.5" cy="16" r="1.5" fill="currentColor"></circle>
+        <circle cx="15.5" cy="16" r="1.5" fill="currentColor"></circle>
+        <path d="M12 2v4"></path>
+        <path d="M10 2h4"></path>
+        <path d="M2 15h1"></path>
+        <path d="M21 15h1"></path>
+      </svg>
+    </div>
+    <span class="floating-tooltip">Ask Subhan AI · Study Assistant</span>
+  </button>
 
   <!-- Floating Direct WhatsApp Quick Action Button -->
   <a href="https://wa.me/923706449349?text=Hi%20M.%20Subhan,%20I%20visited%20the%20Skills%20Hub%20and%20want%20to%20connect%20with%20you." class="floating-whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat with M. Subhan on WhatsApp">
@@ -643,10 +660,92 @@
     </a>
   </footer>
 
+  <!-- Subhan AI Floating Chat Window -->
+  <section id="subhanAiWidget" class="subhan-ai-widget" hidden aria-label="Subhan AI Chat Window">
+    <!-- Header -->
+    <header class="ai-header">
+      <div class="ai-header-left">
+        <div class="ai-avatar-wrapper">
+          <img src="assets/aspire_logo.png" alt="ASPIRE Logo" class="ai-avatar-img" />
+          <span class="ai-online-dot" title="Online"></span>
+        </div>
+        <div class="ai-header-info">
+          <div class="ai-title-row">
+            <strong class="ai-name">Subhan AI</strong>
+            <span class="ai-beta-tag">HYBRID</span>
+          </div>
+          <span class="ai-subtitle">Academic Assistant · ASPIRE College Mailsi</span>
+        </div>
+      </div>
+      <div class="ai-header-actions">
+        <button id="aiClearBtn" class="ai-action-btn" type="button" title="Clear Chat History" aria-label="Clear chat">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+        <button id="aiCloseBtn" class="ai-action-btn ai-close-btn" type="button" title="Minimize / Close" aria-label="Close chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Quick Status Banner -->
+    <div class="ai-status-banner">
+      <span class="ai-status-pulse"></span>
+      <span>GCUF Academic Vault · 24/7 Instant Subject & Drive Guidance</span>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="aiMessagesList" class="ai-messages-list"></div>
+
+    <!-- Typing Indicator -->
+    <div id="aiTypingIndicator" class="ai-typing-indicator" hidden>
+      <div class="typing-bubble">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <span class="typing-label">Subhan AI is searching the vault...</span>
+    </div>
+
+    <!-- Suggested Quick Action Chips -->
+    <div class="ai-chips-container" id="aiQuickChips">
+      <button class="ai-chip" type="button" data-prompt="BS CS 3rd Semester ke notes aur drive do">📂 BS CS 3rd Sem</button>
+      <button class="ai-chip" type="button" data-prompt="GCUF past papers kaise download karein?">📝 GCUF Past Papers</button>
+      <button class="ai-chip" type="button" data-prompt="BS English ke subjects aur folders dikhao">📚 BS English</button>
+      <button class="ai-chip" type="button" data-prompt="ASPIRE College Mailsi GCUF affiliation details">🏛️ ASPIRE & GCUF Info</button>
+      <button class="ai-chip" type="button" data-prompt="Subhan se WhatsApp par rabta karna hai">💬 Contact Subhan</button>
+    </div>
+
+    <!-- Chat Input Area -->
+    <form id="aiChatForm" class="ai-chat-input-bar">
+      <input 
+        type="text" 
+        id="aiChatInput" 
+        class="ai-input-field" 
+        placeholder="Ask anything about notes, past papers, GCUF..." 
+        autocomplete="off" 
+        maxlength="300"
+        required
+      />
+      <button type="submit" id="aiSendBtn" class="ai-send-btn" aria-label="Send Message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </form>
+  </section>
+
   <!-- Firebase & App Scripts -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="app.js?v=3.4"></script>
+  <script src="app.js?v=3.5"></script>
+  <!-- Subhan AI Virtual Assistant -->
+  <script src="chatbot.js?v=1.0"></script>
 </body>
 </html>
