@@ -4206,81 +4206,169 @@ body {
    25. SUBHAN AI — VIRTUAL ACADEMIC ASSISTANT & CHATBOT WIDGET
    ========================================================================== */
 
-/* Floating Launcher Button */
+/* Floating Launcher Button — Academic Neon Medallion (Universe of Resources Edition) */
 .floating-ai-btn {
   position: fixed;
   bottom: 92px;
   right: 24px;
   z-index: 99;
-  width: 56px;
-  height: 56px;
+  width: 66px;
+  height: 66px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #8b5cf6 100%);
+  background: radial-gradient(circle at 35% 30%, #161e3d 0%, #0a0e24 65%, #030612 100%);
   color: #ffffff;
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(250, 204, 21, 0.85); /* Warm collegiate gold bezel */
+  outline: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45), 0 0 20px rgba(6, 182, 212, 0.3);
-  transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s ease;
-  animation: aiFloatPulse 3s infinite ease-in-out;
+  box-shadow: 
+    0 0 0 2px rgba(139, 245, 66, 0.55), /* Emerald neon ring */
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(139, 245, 66, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  transition: transform 0.28s var(--ease-smooth), box-shadow 0.28s ease, border-color 0.28s ease;
+  animation: medallionFloatPulse 3.5s infinite ease-in-out;
   padding: 0;
+  overflow: visible;
+}
+
+.floating-ai-btn::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 245, 66, 0.25) 0%, rgba(250, 204, 21, 0.15) 45%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
+  animation: medallionAuraPulse 3.5s infinite ease-in-out;
 }
 
 .floating-ai-btn:hover {
-  transform: scale(1.1) translateY(-3px);
-  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.65), 0 0 28px rgba(6, 182, 212, 0.5);
+  transform: scale(1.08) translateY(-4px);
+  border-color: #facc15;
+  box-shadow: 
+    0 0 0 2.5px rgba(139, 245, 66, 0.85),
+    0 16px 40px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(139, 245, 66, 0.55),
+    0 0 20px rgba(250, 204, 21, 0.4),
+    inset 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 .floating-ai-btn.trigger-active {
-  background: #0f172a;
+  background: radial-gradient(circle at 35% 30%, #1e2954 0%, #0e1432 75%, #050816 100%);
   border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(139, 245, 66, 0.5);
+  box-shadow: 
+    0 0 0 2.5px #facc15,
+    0 0 30px rgba(139, 245, 66, 0.7);
 }
 
-@keyframes aiFloatPulse {
-  0% { transform: translateY(0) scale(1); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45), 0 0 20px rgba(6, 182, 212, 0.3); }
-  50% { transform: translateY(-4px) scale(1.04); box-shadow: 0 14px 30px rgba(16, 185, 129, 0.6), 0 0 30px rgba(6, 182, 212, 0.5); }
-  100% { transform: translateY(0) scale(1); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.45), 0 0 20px rgba(6, 182, 212, 0.3); }
+@keyframes medallionFloatPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 
+      0 0 0 2px rgba(139, 245, 66, 0.55),
+      0 10px 30px rgba(0, 0, 0, 0.8),
+      0 0 25px rgba(139, 245, 66, 0.35),
+      inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 
+      0 0 0 2.5px rgba(139, 245, 66, 0.7),
+      0 15px 35px rgba(0, 0, 0, 0.85),
+      0 0 35px rgba(139, 245, 66, 0.5),
+      0 0 15px rgba(250, 204, 21, 0.3),
+      inset 0 1px 3px rgba(255, 255, 255, 0.45);
+  }
+}
+
+@keyframes medallionAuraPulse {
+  0%, 100% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.1); }
 }
 
 .ai-btn-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  pointer-events: none;
 }
 
-.ai-icon-robot {
+.medallion-brand-icon {
+  width: 34px;
+  height: 22px;
   display: block;
-  stroke: #ffffff;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 0 6px rgba(139, 245, 66, 0.85));
+  transition: transform 0.25s ease;
+}
+
+.floating-ai-btn:hover .medallion-brand-icon {
+  transform: scale(1.08);
+}
+
+.medallion-brand-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.medallion-title {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.medallion-sub {
+  font-family: var(--font-mono);
+  font-size: 5.8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #facc15; /* Gold */
+  text-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
+  margin-top: 1px;
 }
 
 .ai-unread-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 20px;
-  height: 20px;
-  background: #ef4444;
-  color: #fff;
-  border: 2px solid #070913;
-  border-radius: 50%;
+  top: -4px;
+  right: -4px;
+  padding: 2px 6px;
+  min-width: 22px;
+  height: 18px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #050814;
+  border: 1.5px solid #ffffff;
+  border-radius: 9999px;
   font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 800;
+  font-size: 9px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
-  animation: badgeBlink 2s infinite ease-in-out;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
+  animation: badgeBlink 2.2s infinite ease-in-out;
+  letter-spacing: 0.5px;
+  z-index: 2;
 }
 
 @keyframes badgeBlink {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+  50% { transform: scale(1.15); }
 }
 
 .floating-ai-btn:hover .floating-tooltip {
@@ -4844,8 +4932,21 @@ body {
   .floating-ai-btn {
     bottom: 84px;
     right: 18px;
-    width: 50px;
-    height: 50px;
+    width: 58px;
+    height: 58px;
+  }
+  
+  .medallion-brand-icon {
+    width: 30px;
+    height: 19px;
+  }
+  
+  .medallion-title {
+    font-size: 6.8px;
+  }
+  
+  .medallion-sub {
+    font-size: 5.2px;
   }
   
   .subhan-ai-widget {
