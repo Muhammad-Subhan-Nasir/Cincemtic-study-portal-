@@ -1,66 +1,73 @@
 /**
- * Subhan AI — Virtual Academic Assistant & Vault Knowledge Engine
- * For: Universe of Resources (ASPIRE College Mailsi · GCUF Affiliated)
+ * Assistant of Subhan for Universe of Resources
+ * Virtual Academic Study Assistant & Vault Knowledge Engine
+ * For: ASPIRE College Mailsi (Affiliated with GCUF)
  * Developed by: M. Subhan
- * Engine: Google Gemini 1.5 Flash (Generative Language API) + Hybrid Live Drive Vault
  */
 
 (function () {
   'use strict';
 
   // 1. Storage Keys & State
-  const CHAT_STORAGE_KEY = 'subhan_ai_chat_history_v3';
-  const BADGE_DISMISSED_KEY = 'subhan_ai_badge_dismissed_v3';
-  const API_KEY_STORAGE = 'subhan_ai_gemini_api_key_v1';
+  const CHAT_STORAGE_KEY = 'assistant_of_subhan_chat_v5';
+  const BADGE_DISMISSED_KEY = 'assistant_of_subhan_badge_v5';
 
   let chatHistory = [];
   let isTyping = false;
 
-  // 2. Gemini System Prompt & Academic Context
-  const GEMINI_SYSTEM_INSTRUCTION = `
-You are "Subhan AI", an intelligent, warm, inspiring, and highly capable virtual academic mentor and study assistant for the portal "Universe of Resources".
+  // 2. Safe-Encoded Embedded API Key (Provided by M. Subhan)
+  const _B64_KEY = 'QVEuQWI4Uk42SnhIUWdsU0lzNlh5VjVmRU83dWszMDdxcUdmTWppRnNQeDhyOExlQUxYTVE=';
+  const DEFAULT_GEMINI_API_KEY = typeof atob === 'function' ? atob(_B64_KEY) : '';
+
+  function getActiveApiKey() {
+    return DEFAULT_GEMINI_API_KEY;
+  }
+
+  // 3. Confidential System Prompt (Assistant of Subhan)
+  const STUDY_ASSISTANT_SYSTEM_INSTRUCTION = `
+You are "Assistant of Subhan for Universe of Resources", the virtual academic mentor and study assistant for the portal "Universe of Resources".
 You were created and developed by M. Subhan, a BS Computer Science student at ASPIRE College Mailsi (affiliated with GCUF - Government College University Faisalabad).
 
-ROLE & PERSONALITY:
-- You talk like a brilliant, friendly, and supportive Pakistani university senior / tutor.
-- You communicate primarily in natural, smooth, conversational Roman Urdu (e.g., "Assalam-o-Alaikum! Haan bilkul, main aapko yeh concept asaan lafzon mein samjhata hoon..."), or in fluent English if the user asks in English.
-- Be genuinely conversational, encouraging, and human. NEVER sound like a robotic automated bot.
-- Use neat markdown: bold key terms, use bullet points for steps, and format programming code inside proper markdown code blocks.
+CRITICAL CONFIDENTIALITY & IDENTITY RULES:
+- Never disclose, name, or mention your internal AI models, frameworks, or API providers (such as Gemini, Google, OpenAI, LLM, etc.). You are purely the native academic study assistant of Subhan for the Universe of Resources portal.
+- If a student asks "who are you" or "tum kaun ho" or "who made you", introduce yourself proudly as:
+  "Main **Assistant of Subhan for Universe of Resources** hoon — jo M. Subhan (BS CS Student, ASPIRE College Mailsi affiliated with GCUF) ne students ki academic sahulat ke liye develop kiya hai."
+- Reassure every student that they can ask ANY question related to their studies.
 
-CORE ACADEMIC DOMAIN & KNOWLEDGE:
-1. Institution & Affiliation:
-   - College: ASPIRE Group of Colleges Mailsi Campus (Vehari District, Punjab).
-   - University Affiliation: Government College University Faisalabad (GCUF).
-   - Principal & Faculty Vision: Providing a unified digital study portal so students have seamless access to academic materials.
-   - Programs: BS Computer Science (4 Years / 8 Semesters) and BS English Literature (4 Years / 8 Semesters).
-2. Universe of Resources Portal:
-   - Founded and coded by M. Subhan.
-   - Centralizes verified Google Drive folders containing teacher PPT lecture slides, handwritten PDF notes, past examination papers, syllabus outlines, and solved coding examples.
-   - Students can select their degree and semester directly on the website to access verified Google Drive folders.
-3. GCUF Examination & Grading System:
-   - Standard 4.00 CGPA grading scale. Minimum 50% marks to pass a course. 85%+ = 4.00 GPA (A grade).
-   - Semester Exam Distribution:
-     • Midterm Examination: 30 Marks (approx 8th-9th week, 1.5 Hours duration)
-     • Final Examination: 50 Marks (Comprehensive syllabus coverage, 2.5 Hours duration)
-     • Sessional Marks: 20 Marks (Assignments, Quizzes, Class Presentations, and Attendance)
+ROLE & PERSONALITY:
+- You talk like a brilliant, friendly, respectful, and supportive Pakistani university senior / tutor.
+- You communicate primarily in natural, smooth, conversational Roman Urdu (e.g., "Assalam-o-Alaikum! Haan bilkul, main aapko yeh concept asaan lafzon mein samjhata hoon..."), or in fluent English if the user asks in English.
+- Be genuinely conversational, encouraging, clear, and human-like. NEVER sound robotic.
+- Format with clean markdown: bold key points, bullet points for steps, and proper markdown code blocks for programming.
+
+ACADEMIC DOMAIN & KNOWLEDGE:
+1. Universe of Resources:
+   - Founded and maintained by M. Subhan to centralize verified Google Drive folders containing teacher PPT slides, handwritten PDF notes, past examination papers, syllabus outlines, and solved coding examples.
+   - Covers BS Computer Science and BS English Literature (Semesters 1 to 8).
+   - Inform students that verified Google Drive folders for their subjects can be opened directly from the portal.
+2. ASPIRE College Mailsi & GCUF Affiliation:
+   - College: ASPIRE Group of Colleges Mailsi Campus.
+   - Affiliated with: Government College University Faisalabad (GCUF).
+   - Examination System: Midterm Examination (30 Marks, 1.5 hrs), Final Examination (50 Marks, 2.5 hrs), Sessional Marks (20 Marks for assignments, quizzes, presentations, attendance).
+   - CGPA Scale: Standard 4.00 CGPA grading scale. Minimum 50% passing threshold per course. 85%+ = 4.00 GPA (A grade).
    - Emphasize the importance of practicing GCUF past papers for recurring exam patterns and repeated questions.
-4. Computer Science Subjects Guidance:
-   - Programming Fundamentals (C++: syntax, variables, conditional statements, loops, functions, arrays, pointers, dynamic memory).
+3. BS Computer Science Guidance:
+   - Programming Fundamentals (C++: syntax, variables, conditions, loops, functions, arrays, pointers, memory).
    - Object-Oriented Programming (OOP: Classes, Objects, 4 Pillars: Encapsulation, Inheritance, Polymorphism, Abstraction).
    - Data Structures & Algorithms (DSA: Arrays, Linked Lists, Stacks, Queues, Trees, Graphs, Sorting, Searching, Big-O complexity).
-   - Database Management Systems (DBMS: ER Diagrams, SQL Queries, Normalization 1NF/2NF/3NF/BCNF, ACID properties, Transactions).
-   - Operating Systems (OS: Process Management, Threads, CPU Scheduling, Deadlocks, Banker's Algorithm, Virtual Memory & Paging).
+   - Database Management Systems (DBMS: SQL, Relational Schema, Normalization 1NF/2NF/3NF, ACID properties, Transactions).
+   - Operating Systems (OS: Process Management, Threads, CPU Scheduling, Deadlocks, Banker's Algorithm, Virtual Memory).
    - Computer Networks (OSI 7 Layers, TCP/IP, Subnetting, Routing, DNS, HTTP/HTTPS).
-   - Web Development, Python, Software Engineering.
-5. BS English Literature Guidance:
+   - Web & Mobile App Development, Python, Software Engineering.
+4. BS English Literature Guidance:
    - Classical Poetry (Chaucer, Milton, Shakespearean Sonnets), Drama, History of English Literature, Linguistics, Phonetics, Literary criticism.
-6. Founder Contact:
-   - M. Subhan is always ready to guide fellow students and teachers.
+5. Founder Contact:
+   - M. Subhan is always ready to guide fellow students personally.
    - WhatsApp Contact: https://wa.me/923706449349
    - If an unlisted subject past paper or study note is needed, guide them warmly to message Subhan on WhatsApp.
 `;
 
-  // 3. Fallback Knowledge for Offline / Instant Mode
+  // 4. Fallback Academic Knowledge Base
   const VAULT_KNOWLEDGE = {
     college: {
       name: "ASPIRE Group of Colleges Mailsi Campus",
@@ -82,34 +89,6 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     }
   };
 
-  // 4. API Key Accessors (Safe-encoded Default Key provided by M. Subhan)
-  const _B64_KEY = 'QVEuQWI4Uk42SnhIUWdsU0lzNlh5VjVmRU83dWszMDdxcUdmTWppRnNQeDhyOExlQUxYTVE=';
-  const DEFAULT_GEMINI_API_KEY = typeof atob === 'function' ? atob(_B64_KEY) : '';
-
-  function getSavedApiKey() {
-    try {
-      const custom = (localStorage.getItem(API_KEY_STORAGE) || '').trim();
-      return custom || DEFAULT_GEMINI_API_KEY;
-    } catch (e) {
-      return DEFAULT_GEMINI_API_KEY;
-    }
-  }
-
-  function setSavedApiKey(key) {
-    try {
-      const trimmed = (key || '').trim();
-      if (trimmed) {
-        localStorage.setItem(API_KEY_STORAGE, trimmed);
-      } else {
-        localStorage.removeItem(API_KEY_STORAGE);
-      }
-      return true;
-    } catch (e) {
-      console.error("Failed to save API key:", e);
-      return false;
-    }
-  }
-
   // 5. Helper: Retrieve Live Portal Resources (Google Drive Folders)
   function getLiveResources() {
     try {
@@ -123,7 +102,7 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
         if (Array.isArray(parsed)) return parsed;
       }
     } catch (e) {
-      console.warn("Subhan AI resources fetch notice:", e);
+      console.warn("Resources fetch notice:", e);
     }
     return [];
   }
@@ -186,10 +165,10 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     return matches.slice(0, 4);
   }
 
-  // 7. Google Gemini AI Engine (Models: gemini-3.8-flash, gemini-3.5-flash-lite, gemini-flash-latest)
-  const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
+  // 7. Silent AI Backend Engine (Models with automatic fallback)
+  const AI_MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
 
-  async function callGeminiModel(modelName, userPrompt, history, apiKey) {
+  async function callAiModel(modelName, userPrompt, history, apiKey) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
     // Build multi-turn context (last 6 turns)
@@ -210,7 +189,6 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
       }
     });
 
-    // Add current user prompt
     contents.push({
       role: 'user',
       parts: [{ text: userPrompt }]
@@ -218,7 +196,7 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
 
     const body = {
       system_instruction: {
-        parts: [{ text: GEMINI_SYSTEM_INSTRUCTION }]
+        parts: [{ text: STUDY_ASSISTANT_SYSTEM_INSTRUCTION }]
       },
       contents: contents,
       generationConfig: {
@@ -248,35 +226,35 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     const replyText = candidate?.content?.parts?.[0]?.text;
 
     if (!replyText) {
-      throw new Error(`Gemini (${modelName}) returned an empty candidate text.`);
+      throw new Error(`Engine returned an empty response.`);
     }
 
     return replyText;
   }
 
-  async function callGeminiFlashAPI(userPrompt, history, apiKey) {
+  async function executeAiQuery(userPrompt, history, apiKey) {
     let lastError = null;
-    for (const model of GEMINI_MODELS) {
+    for (const model of AI_MODELS) {
       try {
-        return await callGeminiModel(model, userPrompt, history, apiKey);
+        return await callAiModel(model, userPrompt, history, apiKey);
       } catch (err) {
-        console.warn(`Model ${model} notice (${err.message}). Trying fallback model...`);
+        console.warn(`Query attempt on ${model} redirected...`);
         lastError = err;
       }
     }
-    throw lastError || new Error("Google Gemini AI service currently unavailable.");
+    throw lastError || new Error("Engine temporarily busy.");
   }
 
-  // 8. Offline Knowledge Fallback (When no key or network issue)
+  // 8. Offline Academic Knowledge Fallback (Clean & Helpful)
   function getOfflineVaultResponse(q) {
     const lower = q.toLowerCase();
 
     if (/^(hi|hello|hey|salam|assalam|aoa|slaam|asalam|kese ho|kaise ho)/i.test(lower)) {
-      return `**Walaikum Assalam! 🌟** Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka virtual academic assistant.\n\nAap mujh se GCUF past papers, semester study drives, C++, OOP, Data Structures ya ASPIRE College ke mutaliq kuch bhi pooch sakte hain!`;
+      return `**Walaikum Assalam! 🌟** Main **Assistant of Subhan for Universe of Resources** hoon.\n\nAap mujh se study ke related har qisam ka sawal pooch sakte hain — GCUF past papers, semester study drives, C++, OOP, Data Structures, DBMS ya ASPIRE College ke syllabus ke mutaliq kuch bhi!`;
     }
 
     if (/aspire|campus|mailsi|building|affiliated|gcuf/i.test(lower)) {
-      return `🏛️ **ASPIRE College Mailsi & GCUF Affiliation Details:**\n\n• **College:** ${VAULT_KNOWLEDGE.college.name}\n• **Affiliation:** ${VAULT_KNOWLEDGE.college.affiliation}\n• **Location:** ${VAULT_KNOWLEDGE.college.location}\n• **Programs:** BS Computer Science aur BS English Literature.\n• **Standards:** GCUF ke official curriculum aur examination regulations ke mutabiq certified study material available hai.`;
+      return `🏛️ **ASPIRE College Mailsi & GCUF Affiliation Details:**\n\n• **College:** ${VAULT_KNOWLEDGE.college.name}\n• **Affiliation:** ${VAULT_KNOWLEDGE.college.affiliation}\n• **Location:** ${VAULT_KNOWLEDGE.college.location}\n• **Programs:** BS Computer Science aur BS English Literature.\n• **Standards:** GCUF ke official curriculum aur examination regulations ke mutabiq verified study materials available hain.`;
     }
 
     if (/exam|midterm|final|paper pattern|cgpa|gpa|marks/i.test(lower)) {
@@ -287,127 +265,25 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
       return `Aap portal ke founder aur developer **M. Subhan** se direct WhatsApp par connect kar sakte hain:\n\n• **Developer:** M. Subhan (BS CS, ASPIRE College Mailsi)\n• **WhatsApp Direct Line:** https://wa.me/923706449349`;
     }
 
-    return `Universe of Resources par **ASPIRE College Mailsi (GCUF)** ke tamam semesters ke folders mojood hain. Aap mujh se kisi bhi specific semester (e.g. *"BS CS 3rd Semester"*), subject notes, ya GCUF paper pattern ke baray mein pooch sakte hain!`;
+    return `Universe of Resources par **ASPIRE College Mailsi (GCUF)** ke tamam semesters ke folders mojood hain. Aap mujh se kisi bhi specific semester (e.g. *"BS CS 3rd Semester"*), subject notes, ya GCUF examination pattern ke baray mein pooch sakte hain!`;
   }
 
   // 9. Main Controller & DOM Initialization
-  function initSubhanAi() {
+  function initStudyAssistant() {
     const trigger = document.getElementById('subhanAiTrigger');
     const widget = document.getElementById('subhanAiWidget');
     const closeBtn = document.getElementById('aiCloseBtn');
     const clearBtn = document.getElementById('aiClearBtn');
-    const keyBtn = document.getElementById('aiKeyBtn');
     const chatForm = document.getElementById('aiChatForm');
     const chatInput = document.getElementById('aiChatInput');
     const messagesList = document.getElementById('aiMessagesList');
     const quickChips = document.getElementById('aiQuickChips');
     const typingIndicator = document.getElementById('aiTypingIndicator');
     const unreadBadge = document.getElementById('aiUnreadBadge');
-    const statusText = document.getElementById('aiStatusText');
-
-    // Key Drawer Elements
-    const keyDrawer = document.getElementById('aiKeyDrawer');
-    const apiKeyInput = document.getElementById('aiApiKeyInput');
-    const saveKeyBtn = document.getElementById('aiSaveKeyBtn');
-    const clearKeyBtn = document.getElementById('aiClearKeyBtn');
-    const closeKeyDrawer = document.getElementById('aiCloseKeyDrawer');
 
     if (!trigger || !widget || !chatForm || !chatInput || !messagesList) {
-      console.warn("Subhan AI elements missing from DOM.");
+      console.warn("Assistant elements missing from DOM.");
       return;
-    }
-
-    // Update UI based on API key state
-    function refreshApiKeyState() {
-      const currentKey = getSavedApiKey();
-      if (currentKey) {
-        if (keyBtn) keyBtn.classList.add('has-key');
-        if (statusText) {
-          statusText.textContent = "⚡ Gemini 2.0 Flash Connected · Next-Gen AI Active";
-        }
-        if (apiKeyInput) {
-          apiKeyInput.value = currentKey;
-        }
-      } else {
-        if (keyBtn) keyBtn.classList.remove('has-key');
-        if (statusText) {
-          statusText.textContent = "🔑 Gemini Key Pending · Click 🔑 to Activate Real AI";
-        }
-        if (apiKeyInput) {
-          apiKeyInput.value = '';
-        }
-      }
-    }
-
-    refreshApiKeyState();
-
-    // Toggle Key Drawer
-    function openKeyDrawer() {
-      if (!keyDrawer) return;
-      keyDrawer.hidden = false;
-      const current = getSavedApiKey();
-      if (apiKeyInput) {
-        apiKeyInput.value = current;
-        apiKeyInput.focus();
-      }
-    }
-
-    function hideKeyDrawer() {
-      if (keyDrawer) keyDrawer.hidden = true;
-    }
-
-    if (keyBtn) {
-      keyBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (keyDrawer.hidden) {
-          openKeyDrawer();
-        } else {
-          hideKeyDrawer();
-        }
-      });
-    }
-
-    if (closeKeyDrawer) {
-      closeKeyDrawer.addEventListener('click', hideKeyDrawer);
-    }
-
-    if (saveKeyBtn) {
-      saveKeyBtn.addEventListener('click', () => {
-        const val = apiKeyInput ? apiKeyInput.value.trim() : '';
-        if (!val) {
-          alert("Barah-e-karam apni Google Gemini API Key enter karein.");
-          return;
-        }
-        setSavedApiKey(val);
-        refreshApiKeyState();
-        hideKeyDrawer();
-
-        // Push confirmation bot message
-        chatHistory.push({
-          sender: 'bot',
-          rawText: "Gemini 2.0 Flash AI connected!",
-          text: `🎉 **Google Gemini 2.0 Flash AI successfully connected!**\n\nAb Subhan AI Google ke latest high-speed intelligence engine se operate karega! Aap mujh se Roman Urdu ya English mein koi bhi sawal pooch sakte hain — coding questions, GCUF past papers, assignments, ya semester guidance!`,
-          chips: ['📂 BS CS 3rd Sem Folders', '📝 GCUF Past Papers', '🏛️ ASPIRE College Info', '💬 Ask Subhan']
-        });
-        saveChatHistory();
-        renderMessages();
-      });
-    }
-
-    if (clearKeyBtn) {
-      clearKeyBtn.addEventListener('click', () => {
-        if (confirm("Kya aap saved Gemini API Key remove karna chahte hain?")) {
-          setSavedApiKey('');
-          refreshApiKeyState();
-          hideKeyDrawer();
-          chatHistory.push({
-            sender: 'bot',
-            text: `ℹ️ **Gemini API Key remove kar di gayi hai.**\n\nSubhan AI ab offline vault mode mein chalay ga. Dubara connect karne ke liye upar 🔑 icon dabayein!`
-          });
-          saveChatHistory();
-          renderMessages();
-        }
-      });
     }
 
     // Load Chat History from sessionStorage
@@ -422,22 +298,13 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
 
     // Initial Welcome Message
     if (chatHistory.length === 0) {
-      const hasKey = !!getSavedApiKey();
-      let welcomeMsg = '';
-
-      if (hasKey) {
-        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka official virtual study mentor.\n\n⚡ **Google Gemini 2.0 Flash AI** active hai! Main aapko teacher lecture slides, past examination papers, syllabus aur complex CS/English academic guidance provide kar sakta hoon.\n\nAap Roman Urdu ya English mein kuch bhi pooch sakte hain!`;
-      } else {
-        welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Subhan AI** hoon — ASPIRE College Mailsi (GCUF) ka virtual academic mentor.\n\nMain aapko real Google Gemini 2.0 Flash AI se connect kar ke smart aur human-like jawab deta hoon.\n\n🔑 **Gemini AI Activate Kaise Karein?**\nUpar header mein **🔑 icon** dabayein ya neeche **"Enter Gemini Key"** par click karein. Agar key nahi hai toh Google AI Studio se 30 second mein free le lein!`;
-      }
+      const welcomeMsg = `Assalam-o-Alaikum! 🌟 Main **Assistant of Subhan for Universe of Resources** hoon.\n\nAap mujh se **study ke related har qisam ka sawal** pooch sakte hain — chahe BS Computer Science ke subjects hon, BS English Literature, GCUF paper pattern, midterms aur finals ki tayari, ya direct Google Drive notes!\n\nAap kis subject ya semester ke baray mein janna chahte hain?`;
 
       chatHistory.push({
         sender: 'bot',
         rawText: welcomeMsg,
         text: welcomeMsg,
-        chips: hasKey 
-          ? ['📂 BS CS 3rd Sem Folders', '📝 GCUF Past Papers', '🏛️ ASPIRE & GCUF Info', '💬 Ask M. Subhan']
-          : ['🔑 Enter Gemini Key', '📂 BS CS 3rd Sem', '📝 GCUF Past Papers', '💬 Ask Subhan']
+        chips: ['📂 BS CS Study Drives', '📝 GCUF Past Papers & Pattern', '📚 BS English Folders', '🏛️ ASPIRE & GCUF Info', '💬 Ask Subhan']
       });
       saveChatHistory();
     }
@@ -488,14 +355,11 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     // Clear Chat Handler
     clearBtn.addEventListener('click', () => {
       if (confirm("Kya aap chat history clear karna chahte hain?")) {
-        const hasKey = !!getSavedApiKey();
         chatHistory = [{
           sender: 'bot',
           rawText: "Chat reset.",
-          text: `Chat reset ho chuki hai! Main **Subhan AI** hoon. Aap kis subject, semester ya past paper ke baray mein janna chahte hain?`,
-          chips: hasKey 
-            ? ['📂 BS CS 3rd Sem Folders', '📝 GCUF Past Papers', '🏛️ ASPIRE College Info']
-            : ['🔑 Enter Gemini Key', '📂 BS CS 3rd Sem', '📝 GCUF Past Papers']
+          text: `Chat reset ho chuki hai! Main **Assistant of Subhan for Universe of Resources** hoon. Aap study ke related koi bhi sawal pooch sakte hain!`,
+          chips: ['📂 BS CS Study Drives', '📝 GCUF Past Papers & Pattern', '📚 BS English Folders', '🏛️ ASPIRE College Info']
         }];
         saveChatHistory();
         renderMessages();
@@ -524,12 +388,6 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
 
     // Send Message Execution
     async function handleSendMessage(text) {
-      // Check if user clicked Key Setup chip
-      if (/enter gemini key|api key|set key|configure key/i.test(text.toLowerCase())) {
-        openKeyDrawer();
-        return;
-      }
-
       // 1. Add User Message
       chatHistory.push({ sender: 'user', text });
       saveChatHistory();
@@ -540,42 +398,32 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
       typingIndicator.hidden = false;
       scrollToBottom();
 
-      const apiKey = getSavedApiKey();
+      const apiKey = getActiveApiKey();
       const matchedResources = findMatchingResources(text);
 
       let botReplyText = '';
-      let rawGemini = '';
+      let rawAi = '';
       let botLinks = [];
-      let botChips = ['📂 BS CS 3rd Sem', '📝 GCUF Past Papers', '🏛️ ASPIRE College Info', '💬 Ask Subhan'];
+      let botChips = ['📂 BS CS Study Drives', '📝 GCUF Past Papers & Pattern', '🏛️ ASPIRE & GCUF Info', '💬 Ask Subhan'];
 
       try {
         if (apiKey) {
-          // Live Gemini 1.5 Flash Call
-          rawGemini = await callGeminiFlashAPI(text, chatHistory, apiKey);
-          botReplyText = rawGemini;
+          rawAi = await executeAiQuery(text, chatHistory, apiKey);
+          botReplyText = rawAi;
         } else {
-          // No API key configured: explain clearly & provide offline knowledge
-          const offlineAnswer = getOfflineVaultResponse(text);
-          botReplyText = `🔑 **Gemini AI API Key Required for Real AI Responses:**\n\nMain abhi offline knowledge mode mein hoon kyun ke Gemini API key connect nahi hui. Agar aap chahte hain ke main natural Roman Urdu mein har sawal ka human-like jawab doon, toh upar **🔑 icon** par click karein ya neeche **"Enter Gemini Key"** dabayein!\n\n---\n\n${offlineAnswer}`;
-          
-          botChips = ['🔑 Enter Gemini Key', '📂 BS CS 3rd Sem', '📝 GCUF Past Papers', '💬 Ask Subhan'];
-          botLinks = [
-            { title: "Get Free Gemini Key (Google AI Studio) ↗", url: "https://aistudio.google.com/app/apikey", isExternal: true },
-            { title: "💬 Contact M. Subhan on WhatsApp", url: VAULT_KNOWLEDGE.founder.whatsapp, isExternal: true }
-          ];
+          botReplyText = getOfflineVaultResponse(text);
         }
       } catch (err) {
-        console.error("Gemini API execution error:", err);
+        console.warn("Study assistant query notice, providing vault guide.");
         const offlineAnswer = getOfflineVaultResponse(text);
-        botReplyText = `⚠️ **Gemini AI Notice (${err.message}):**\n\nAPI call mein issue aaya (key check karein ya quota verify karein). Lekin portal database se aapke sawal ka jawab yeh hai:\n\n${offlineAnswer}`;
-        botChips = ['🔑 Enter Gemini Key', '📂 BS CS 3rd Sem', '📝 GCUF Past Papers', '💬 Ask Subhan'];
+        botReplyText = offlineAnswer;
       } finally {
         isTyping = false;
         typingIndicator.hidden = true;
 
         chatHistory.push({
           sender: 'bot',
-          rawText: rawGemini || botReplyText,
+          rawText: rawAi || botReplyText,
           text: botReplyText,
           resources: matchedResources,
           links: botLinks,
@@ -665,11 +513,7 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
             chipBtn.className = 'ai-chip-inline';
             chipBtn.textContent = chipText;
             chipBtn.addEventListener('click', () => {
-              if (chipText === '🔑 Enter Gemini Key') {
-                openKeyDrawer();
-              } else {
-                handleSendMessage(chipText);
-              }
+              handleSendMessage(chipText);
             });
             chipBox.appendChild(chipBtn);
           });
@@ -696,8 +540,8 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
 
   // 10. Bootstrap when DOM is Ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSubhanAi);
+    document.addEventListener('DOMContentLoaded', initStudyAssistant);
   } else {
-    initSubhanAi();
+    initStudyAssistant();
   }
 })();

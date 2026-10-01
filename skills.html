@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
   
   <!-- Unified Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=3.6" />
+  <link rel="stylesheet" href="styles.css?v=4.0" />
 </head>
 <body data-page="skills">
   <!-- Fullscreen Subtle Background Starfield Canvas -->
@@ -26,8 +26,8 @@
   <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
 
-  <!-- Floating Subhan AI Chatbot Launcher Button -->
-  <button id="subhanAiTrigger" class="floating-ai-btn" type="button" aria-label="Open Subhan AI Study Assistant" title="Ask Subhan AI (Study Assistant)">
+  <!-- Floating Assistant of Subhan Launcher Button -->
+  <button id="subhanAiTrigger" class="floating-ai-btn" type="button" aria-label="Open Assistant of Subhan for Universe of Resources" title="Assistant of Subhan for Universe of Resources">
     <span class="ai-unread-badge" id="aiUnreadBadge">1</span>
     <div class="ai-btn-inner">
       <svg class="ai-icon-robot" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -40,7 +40,7 @@
         <path d="M21 15h1"></path>
       </svg>
     </div>
-    <span class="floating-tooltip">Ask Subhan AI · Study Assistant</span>
+    <span class="floating-tooltip">Assistant of Subhan · Study Assistant</span>
   </button>
 
   <!-- Floating Direct WhatsApp Quick Action Button -->
@@ -660,29 +660,24 @@
     </a>
   </footer>
 
-  <!-- Subhan AI Floating Chat Window -->
-  <section id="subhanAiWidget" class="subhan-ai-widget" hidden aria-label="Subhan AI Chat Window">
+  <!-- Assistant of Subhan Floating Chat Window -->
+  <section id="subhanAiWidget" class="subhan-ai-widget" hidden aria-label="Assistant of Subhan for Universe of Resources">
     <!-- Header -->
     <header class="ai-header">
       <div class="ai-header-left">
         <div class="ai-avatar-wrapper">
           <img src="assets/aspire_logo.png" alt="ASPIRE Logo" class="ai-avatar-img" />
-          <span class="ai-online-dot" title="Online"></span>
+          <span class="ai-online-dot" title="Study Assistant Active"></span>
         </div>
         <div class="ai-header-info">
           <div class="ai-title-row">
-            <strong class="ai-name">Subhan AI</strong>
-            <span class="ai-beta-tag">HYBRID</span>
+            <strong class="ai-name">Assistant of Subhan</strong>
+            <span class="ai-badge-academic">STUDY ASSISTANT</span>
           </div>
-          <span class="ai-subtitle">Academic Assistant · ASPIRE College Mailsi</span>
+          <span class="ai-subtitle">For Universe of Resources · ASPIRE College Mailsi (GCUF)</span>
         </div>
       </div>
       <div class="ai-header-actions">
-        <button id="aiKeyBtn" class="ai-action-btn ai-key-btn" type="button" title="Gemini AI API Key Settings" aria-label="API Key Settings">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 2l-2 2m-1.5 1.5L16 7l-1.5-1.5M16 7l-6 6a5.5 5.5 0 1 1-2.5-2.5l6-6M9 13l-1.5 1.5"></path>
-          </svg>
-        </button>
         <button id="aiClearBtn" class="ai-action-btn" type="button" title="Clear Chat History" aria-label="Clear chat">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -700,31 +695,7 @@
     <!-- Quick Status Banner -->
     <div class="ai-status-banner" id="aiStatusBanner">
       <span class="ai-status-pulse"></span>
-      <span id="aiStatusText">GCUF Academic Vault · 24/7 Instant Subject & Drive Guidance</span>
-    </div>
-
-    <!-- API Key Config Drawer (Hidden by default) -->
-    <div id="aiKeyDrawer" class="ai-key-drawer" hidden>
-      <div class="ai-key-drawer-header">
-        <div class="ai-key-title">
-          <span class="ai-key-icon">🔑</span>
-          <strong>Google Gemini 2.0 Flash AI</strong>
-        </div>
-        <button id="aiCloseKeyDrawer" class="ai-key-close" type="button" title="Close Settings">&times;</button>
-      </div>
-      <p class="ai-key-desc">
-        Connect Google Gemini AI for natural, human-like answers in Roman Urdu & English:
-      </p>
-      <div class="ai-key-input-wrap">
-        <input type="password" id="aiApiKeyInput" class="ai-key-input" placeholder="Paste Gemini API Key (AIzaSy...)" autocomplete="off" />
-        <button type="button" id="aiSaveKeyBtn" class="ai-key-save-btn">Save Key</button>
-      </div>
-      <div class="ai-key-help">
-        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer">
-          Get free key from Google AI Studio ↗
-        </a>
-        <button type="button" id="aiClearKeyBtn" class="ai-key-remove-btn" title="Remove saved key">Remove Key</button>
-      </div>
+      <span id="aiStatusText">Poochhein study ke mutaliq har qisam ka sawal · 24/7 Academic Support</span>
     </div>
 
     <!-- Messages Container -->
@@ -737,16 +708,16 @@
         <span class="dot"></span>
         <span class="dot"></span>
       </div>
-      <span class="typing-label">Subhan AI is searching the vault...</span>
+      <span class="typing-label">Assistant of Subhan is thinking...</span>
     </div>
 
     <!-- Suggested Quick Action Chips -->
     <div class="ai-chips-container" id="aiQuickChips">
-      <button class="ai-chip" type="button" data-prompt="BS CS 3rd Semester ke notes aur drive do">📂 BS CS 3rd Sem</button>
-      <button class="ai-chip" type="button" data-prompt="GCUF past papers kaise download karein?">📝 GCUF Past Papers</button>
-      <button class="ai-chip" type="button" data-prompt="BS English ke subjects aur folders dikhao">📚 BS English</button>
+      <button class="ai-chip" type="button" data-prompt="BS CS 3rd Semester ke study drives aur notes do">📂 BS CS 3rd Sem</button>
+      <button class="ai-chip" type="button" data-prompt="GCUF past examination papers aur paper pattern batao">📝 GCUF Past Papers</button>
+      <button class="ai-chip" type="button" data-prompt="BS English ke subjects aur drive folders dikhao">📚 BS English</button>
       <button class="ai-chip" type="button" data-prompt="ASPIRE College Mailsi GCUF affiliation details">🏛️ ASPIRE & GCUF Info</button>
-      <button class="ai-chip" type="button" data-prompt="Subhan se WhatsApp par rabta karna hai">💬 Contact Subhan</button>
+      <button class="ai-chip" type="button" data-prompt="M. Subhan se WhatsApp par rabta karna hai">💬 Contact Subhan</button>
     </div>
 
     <!-- Chat Input Area -->
@@ -755,7 +726,7 @@
         type="text" 
         id="aiChatInput" 
         class="ai-input-field" 
-        placeholder="Ask anything about notes, past papers, GCUF..." 
+        placeholder="Poochhein study ke mutaliq koi bhi sawal..." 
         autocomplete="off" 
         maxlength="300"
         required
@@ -774,7 +745,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="app.js?v=3.5"></script>
-  <!-- Subhan AI Virtual Assistant (Gemini Flash AI Engine) -->
-  <script src="chatbot.js?v=2.1"></script>
+  <!-- Assistant of Subhan for Universe of Resources -->
+  <script src="chatbot.js?v=3.0"></script>
 </body>
 </html>
