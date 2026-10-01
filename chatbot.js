@@ -9,8 +9,8 @@
   'use strict';
 
   // 1. Storage Keys & State
-  const CHAT_STORAGE_KEY = 'subhan_ai_chat_history_v2';
-  const BADGE_DISMISSED_KEY = 'subhan_ai_badge_dismissed_v2';
+  const CHAT_STORAGE_KEY = 'subhan_ai_chat_history_v3';
+  const BADGE_DISMISSED_KEY = 'subhan_ai_badge_dismissed_v3';
   const API_KEY_STORAGE = 'subhan_ai_gemini_api_key_v1';
 
   let chatHistory = [];
@@ -82,12 +82,16 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     }
   };
 
-  // 4. API Key Accessors
+  // 4. API Key Accessors (Safe-encoded Default Key provided by M. Subhan)
+  const _B64_KEY = 'QVEuQWI4Uk42SnhIUWdsU0lzNlh5VjVmRU83dWszMDdxcUdmTWppRnNQeDhyOExlQUxYTVE=';
+  const DEFAULT_GEMINI_API_KEY = typeof atob === 'function' ? atob(_B64_KEY) : '';
+
   function getSavedApiKey() {
     try {
-      return (localStorage.getItem(API_KEY_STORAGE) || '').trim();
+      const custom = (localStorage.getItem(API_KEY_STORAGE) || '').trim();
+      return custom || DEFAULT_GEMINI_API_KEY;
     } catch (e) {
-      return '';
+      return DEFAULT_GEMINI_API_KEY;
     }
   }
 
@@ -182,9 +186,8 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
     return matches.slice(0, 4);
   }
 
-  // 7. Google Gemini 2.0 Flash API Caller (with automatic 1.5 Flash fallback)
-  const GEMINI_PRIMARY_MODEL = 'gemini-2.0-flash';
-  const GEMINI_FALLBACK_MODEL = 'gemini-1.5-flash';
+  // 7. Google Gemini AI Engine (Models: gemini-3.8-flash, gemini-3.5-flash-lite, gemini-flash-latest)
+  const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-flash-latest'];
 
   async function callGeminiModel(modelName, userPrompt, history, apiKey) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -252,16 +255,16 @@ CORE ACADEMIC DOMAIN & KNOWLEDGE:
   }
 
   async function callGeminiFlashAPI(userPrompt, history, apiKey) {
-    try {
-      return await callGeminiModel(GEMINI_PRIMARY_MODEL, userPrompt, history, apiKey);
-    } catch (primaryErr) {
-      console.warn(`Gemini 2.0 Flash notice (${primaryErr.message}). Falling back to Gemini 1.5 Flash...`);
+    let lastError = null;
+    for (const model of GEMINI_MODELS) {
       try {
-        return await callGeminiModel(GEMINI_FALLBACK_MODEL, userPrompt, history, apiKey);
-      } catch (fallbackErr) {
-        throw primaryErr;
+        return await callGeminiModel(model, userPrompt, history, apiKey);
+      } catch (err) {
+        console.warn(`Model ${model} notice (${err.message}). Trying fallback model...`);
+        lastError = err;
       }
     }
+    throw lastError || new Error("Google Gemini AI service currently unavailable.");
   }
 
   // 8. Offline Knowledge Fallback (When no key or network issue)
